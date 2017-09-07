@@ -1,0 +1,251 @@
+//package joinample_ByKey;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Queue;
+import java.util.LinkedList;
+import java.util.Vector;
+import java.util.zip.GZIPInputStream;
+import java.util.Set;
+import java.util.Iterator;
+import java.util.ListIterator;
+import java.net.URI;
+import scala.Tuple2;
+
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.fs.FSDataInputStream;
+import org.apache.hadoop.fs.FSDataOutputStream;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.mapreduce.InputFormat;
+import org.apache.hadoop.mapred.TextInputFormat;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.*;
+
+import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.api.java.JavaPairRDD;
+import org.apache.spark.api.java.function.FlatMapFunction;
+import org.apache.spark.api.java.function.PairFunction;
+import org.apache.spark.api.java.function.Function;
+import org.apache.spark.api.java.function.Function2;
+import org.apache.spark.api.java.function.VoidFunction;
+import org.apache.spark.broadcast.Broadcast;
+import org.apache.spark.Accumulator;
+
+public class MergeSample {
+   
+    public static class TaskArray {
+        ArrayList<String> tasksplit = new ArrayList<String>();
+        public TaskArray(){}
+    } 
+
+     
+   /**
+    */  
+    
+    public static void  main(String[] args) throws IOException {
+       
+        String inputDirectory;
+        String outputDirectory;
+        String listFile;
+        int executor_num;
+        String matrixFile;
+        
+
+        SparkConf conf = new SparkConf().setAppName("dbscan").set("spark.kryoserializer.buffer.mb","128").set("spark.akka.askTimeout", "6000").set("spark.akka.timeout", "6000").set("spark.worker.timeout", "6000").set("spark.akka.frameSize","64").set("spark.driver.memory","10g").set("spark.executor.memory","6g");
+        final JavaSparkContext sc = new JavaSparkContext(conf);
+
+        /* get data from arguments */
+        inputDirectory = args[0];
+        outputDirectory = args[1];
+        listFile = args[2];
+        executor_num = 1;
+        //Integer.parseInt(args[3]);
+        //matrixFile = args[4];
+
+        /* read filenames file */        
+        URI uri_list;
+        uri_list = URI.create(listFile);
+  
+        ArrayList<String> taskArr = new ArrayList<String>();
+        Configuration Conf_list = new Configuration();
+
+        try {
+            FileSystem file = FileSystem.get(uri_list, Conf_list);
+            FSDataInputStream in = file.open(new Path(uri_list));
+            String data = new String();
+
+               
+            // extract filenames, and read the whole line each time  
+            while ((data = in.readLine()) !=null  ) {
+                taskArr.add(data);
+            }
+            
+            for (String c : taskArr) {
+                System.out.println(c);
+            } 
+
+        } catch(IOException ioe) {
+              System.out.println(" IOException " + ioe);
+        }
+
+       System.out.println(" number of tasks " + taskArr.size());
+       System.out.println(" number of executors " + executor_num);
+
+        final Broadcast<String> broadoutputDir = sc.broadcast(outputDirectory);
+        final Broadcast<String> broadinputDir = sc.broadcast(inputDirectory);
+        
+        // split task into multiple executors
+        ArrayList<TaskArray> tr = new ArrayList<TaskArray>();
+        int i = 0;
+        int flg = 0;
+        while (i < taskArr.size() && flg == 0){
+               
+             int j=0;
+             TaskArray ta = new TaskArray();
+             while (j < executor_num) { 
+                 ta.tasksplit.add(taskArr.get(i));
+                 if (i < taskArr.size()) {
+                     i++;
+                     j++;
+                 } else {
+                     flg = 1;
+                     break;
+                 }
+             }
+             tr.add(ta);
+        }
+                 
+       for (TaskArray ta : tr) {
+           System.out.println(ta.tasksplit);
+       } 
+                  
+        
+        JavaRDD<ArrayList<Tuple2<String,String>>>  rtnMap = null; 
+        JavaRDD<ArrayList<Tuple2<String,String>>>  HelloMap = null;  
+
+
+        for (TaskArray ta : tr) {
+        JavaRDD<String> pnts = sc.parallelize(ta.tasksplit, ta.tasksplit.size());
+
+        System.out.println("ta.taskslit " + ta.tasksplit);
+
+        // real executor code start here 
+
+         rtnMap = pnts.map(
+            new  Function<String, ArrayList<Tuple2<String, String>>>() {
+                public ArrayList<Tuple2<String, String>> call(String taskfile) {
+
+            System.out.println("----- FILE ---- " + taskfile);
+
+          
+            URI uri;
+            StringBuffer sb1 = new StringBuffer(broadinputDir.value());
+            uri = URI.create(sb1.toString()+taskfile);
+  
+            ArrayList<Integer> temp = new ArrayList<Integer>();
+            Configuration newConf = new Configuration();
+
+           // List aList = new ArrayList();
+            //ListIterator iter = aList.listIterator();
+            
+            ArrayList<Tuple2<String, String>> iter = new ArrayList<Tuple2<String, String>>();
+ 
+            //Tuple2<String, String> t2 = new Tuple2<String, String>("); 
+
+            try {
+                FileSystem file = FileSystem.get(uri, newConf);
+                FSDataInputStream in = file.open(new Path(uri));
+                InputStreamReader isr = null;
+               
+                // process file based on the format of file
+                switch(in.readShort()) {
+                    case 0x1f8b: {
+                        // must be gzip
+                        in.seek(0);
+                        GZIPInputStream gis = new GZIPInputStream(in);
+                        isr = new InputStreamReader(gis);
+                        break;
+                    }
+                    case 0x4f62: {
+                        // avro
+                        in.close();
+                        break;
+                    }
+                    default: { // plain text file
+                        isr = new InputStreamReader(in);
+                        break;
+                    }
+                    
+                }
+                BufferedReader br = new BufferedReader(isr);
+                String str = null;
+                int len = 0;
+
+                //String[] list = str.split(" ");
+
+                while ((str = br.readLine()) != null ){
+                    if ((str.contains("##")) || (str.contains("#CHROM"))) {
+                        continue;
+                    }
+                    if (str.length() < 2){
+                       continue;
+                    }
+                    String[] rcdlist = str.split("\\t");
+                    StringBuilder sb = new StringBuilder();
+                    sb = sb.append(rcdlist[0]);
+                    sb = sb.append(rcdlist[1]);
+                    sb = sb.append(rcdlist[2]);
+                    sb = sb.append(rcdlist[3]);
+                    sb = sb.append(rcdlist[6]);
+
+                    Tuple2<String, String> t2 = new Tuple2<String, String>(sb.toString(), rcdlist[rcdlist.length-1]); 
+                    // System.out.println(taskfile + " [" + t2._1 + "] [" + t2._2 + "]");
+                    iter.add(t2); 
+                        
+                 } 
+        
+
+            } catch(IOException ioe) {
+                System.out.println(" IOException " + ioe);
+            }
+             
+              return iter;
+        }});
+
+                 System.out.println("0000000 [" + rtnMap.count() + "]");
+
+         if (HelloMap != null) {
+            HelloMap =  sc.union(HelloMap, rtnMap); 
+System.out.println(" UNION ");
+         } else {
+            HelloMap = rtnMap;
+         }
+
+      }
+
+       //JavaRDD<ArrayList<Tuple2<String,String>>>  HelloMap =  sc.union(newMap, rtnMap); 
+
+       System.out.println("----------------- KEY VALUE ------------------");
+             
+       List<ArrayList<Tuple2<String, String>>> tupleList = HelloMap.collect();
+       for (ArrayList<Tuple2<String, String>> t : tupleList) {
+           for (Tuple2<String, String> s : t) {
+             System.out.println(s._1 + " " + s._2);
+           }
+       }
+
+
+        } 
+}
+          

@@ -1,0 +1,219 @@
+package dbscan;
+
+import xml.XmlInputFormat;
+import java.util.ArrayList;
+import org.apache.spark.api.java.JavaPairRDD;
+import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.function.VoidFunction;
+import org.apache.spark.broadcast.Broadcast;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.*;
+import org.apache.hadoop.fs.FSDataOutputStream;
+import org.apache.hadoop.conf.Configuration;
+import scala.Tuple2;
+import org.apache.hadoop.fs.FileStatus;
+import org.apache.hadoop.fs.*;
+import java.io.IOException;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.FileOutputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.StringWriter;
+import java.net.URI;
+import java.nio.file.Paths;
+
+import java.nio.file.Files;
+import java.nio.file.OpenOption;
+import org.apache.hadoop.io.serializer.WritableSerialization;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.apache.hadoop.mapred.*;
+import org.apache.hadoop.io.compress.GzipCodec;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import org.apache.spark.api.java.function.FlatMapFunction;
+import org.apache.spark.api.java.function.Function;
+import org.apache.spark.api.java.function.Function2;
+import org.apache.spark.api.java.function.PairFunction;
+import org.apache.spark.api.java.JavaRDD;
+
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FSDataInputStream;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IOUtils;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.compress.CompressionCodec;
+import org.apache.hadoop.io.compress.CompressionCodecFactory;
+import org.apache.hadoop.mapreduce.InputSplit;
+import org.apache.hadoop.mapreduce.RecordReader;
+import org.apache.hadoop.mapreduce.TaskAttemptContext;
+import org.apache.hadoop.mapreduce.lib.input.CombineFileSplit;
+import org.apache.hadoop.util.LineReader;
+import org.apache.spark.broadcast.Broadcast;
+import org.apache.spark.Accumulator;
+
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Queue;
+import java.util.LinkedList;
+import java.util.Vector;
+import java.util.zip.GZIPInputStream;
+import java.util.Set;
+import java.util.Iterator;
+import java.util.ListIterator;
+import java.net.URI;
+import scala.Tuple2;
+public class XMLTextMining {
+
+    public static void main(String[] args) throws IOException, InterruptedException {
+        String inputPath  = args[0];
+        String outputPath = args[1];
+        String matrixFile = args[2];
+
+        SparkConf sconf = new SparkConf().set("spark.serializer", "org.apache.spark.serializer.KryoSerializer");
+        
+        JavaSparkContext sc = new JavaSparkContext(sconf);
+        Configuration conf = new Configuration();
+        conf.set("xmlinput.start", "<MedlineCitation");
+        conf.set("xmlinput.end", "</MedlineCitation>");
+	JavaPairRDD<Text, Text> inputRDD = sc.newAPIHadoopFile(inputPath+"/*.gz", XmlInputFormat.class, Text.class, Text.class,conf);
+
+	JavaPairRDD<String, String> stringRDD=	inputRDD.mapToPair(new PairFunction<Tuple2<Text, Text>, String, String>() {
+           public Tuple2<String, String> call(Tuple2<Text, Text> t) {
+			  
+              return new Tuple2<String,String>(t._1.toString(), t._2.toString());
+ 
+        }});
+
+		
+        // read matrix file and create matrixRDD
+        JavaRDD<String> input = sc.textFile(matrixFile);
+        if (input == null){
+            System.out.print(" input is null");
+        } else {
+            System.out.println("matrxi file reading is OK, length of input: " + input.count());
+        }
+        
+        JavaRDD<String> inputRows = input.filter (
+            new Function<String, Boolean>(){
+                public Boolean call(String s) throws Exception {
+                    if (s.contains("##")){
+                        return false;
+                    }
+                    return true;
+                }
+        });
+
+        int cnt = (int) inputRows.count();
+
+System.out.println(" NUM of inputRows [" + inputRows.count() + "]");
+
+        List<String> matrixHeader = inputRows.take(1);
+        String[] mStr  =  matrixHeader.get(0).split("\t");
+        ArrayList<String> realHeader = new ArrayList<String>(Arrays.asList(mStr));
+        final Broadcast<ArrayList<String>> broadrealHeader = sc.broadcast(realHeader);
+
+        JavaRDD<String> rowRDD = inputRows.filter (
+            new Function<String, Boolean>(){
+                 public Boolean call(String s) throws Exception {
+                     if (s.contains("#CHROM")) {
+                         return false;
+                     } else {
+                         return true;
+                     }
+                  }
+        });
+System.out.println(" NUM of rowRDD [" + rowRDD.count() + "]");
+
+        
+       JavaRDD<ArrayList<Tuple2<String, String>>> matrixRDD = rowRDD.map(
+            new Function<String, ArrayList<Tuple2<String, String>>>() {
+                public ArrayList<Tuple2<String, String>> call(String x) {
+                    List<String> str = Arrays.asList(x.split("\t"));
+                    
+                    ArrayList<Tuple2<String, String>> iter = new ArrayList<Tuple2<String, String>>();
+
+                    for (int j = 9; j < str.size(); j++) { 
+                        if (str.get(j).compareTo(".") == 0){
+                           StringBuilder headStr = new StringBuilder("chr");
+                           headStr = headStr.append(str.get(0));
+                           headStr = headStr.append(":");
+                           headStr = headStr.append(str.get(1));
+                           headStr = headStr.append(":");
+                           headStr = headStr.append(str.get(3));
+                           headStr = headStr.append(":");
+                           headStr = headStr.append(broadrealHeader.value().get(j)); 
+
+                           //java.util.List<String> yourcc = stringRDD.lookup(headStr.toString());
+                           Tuple2<String, String> t2 = new Tuple2<String, String>(headStr.toString(), ".");
+                           iter.add(t2);
+                        }
+                     }
+                     return iter;
+                   
+                 }
+       });
+
+       System.out.println(" NUM of matrixRDD " + matrixRDD.count());
+
+       JavaRDD<Tuple2<String, String>> flatRTN =  matrixRDD.flatMap(
+           new FlatMapFunction<ArrayList<Tuple2<String, String>>, Tuple2<String, String>>(){
+                public Iterable<Tuple2<String, String>> call(ArrayList<Tuple2<String, String>> l){
+                    return l;
+                }
+        });
+
+       System.out.println(" NUM of flatRTN " + flatRTN.count());
+
+       JavaPairRDD<String, String> matrixMapRDD = flatRTN.mapToPair(
+            new PairFunction<Tuple2<String, String>, String, String>() {
+                public Tuple2<String, String> call(Tuple2<String, String> t) {
+                    return new Tuple2<String,String>(t._1, t._2);
+                }
+        });
+
+       System.out.println(" NUM of matrixMapRDD " + matrixMapRDD.count());
+
+       JavaPairRDD<String, Tuple2<String, String>> jointResult = matrixMapRDD.join(stringRDD);
+       //jointResult.saveAsTextFile(outputPath);
+
+       System.out.println("Joints function result: " + jointResult.collect());
+
+       JavaPairRDD<String, String> extractKeyRDD = jointResult.mapToPair (
+           new PairFunction<Tuple2<String, Tuple2<String, String>>, String, String>() {
+               public <Tuple2<String, String> call(Tuple2<String, Tuple2<String, String>> t) {
+                   List<String> str = t._1.split(":");
+                   StrinbBuilder sb = StringBuilder();
+
+                   Tuple2<String, String> t =  new Tuple2<String, String>(
+ 
+       
+
+
+/*
+       JavaRDD<String> outRDD = sc.parallelize(outArray);
+       outRDD.saveAsTextFile(outputPath);
+*/
+         
+    }
+}
+         
