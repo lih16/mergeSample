@@ -169,9 +169,9 @@ String symbol=line.toString().substring(0,2);
             return false;  
         } 
 		
-        key.set(words[0]+"#"+words[1]+"#"+words[2]+"#"+words[3]+"#"+words[4]+"#"+words[5]+"#"+words[6]+"#"+words[7]+"#"+words[8]);  
+        key.set(words[0]+"#"+words[1]+"#"+words[2]+"#"+words[3]+"#"+words[4]+"#"+words[5]+"#"+words[6]+"#"+words[7]);  
         //value.set(words[6]+"|"+words[9]);  
-        value.set(samplename+"#"+words[9]);  
+        value.set(samplename+"#"+words[8]+"HHH"+samplename+"#"+words[9]);  
         return true;  
           
     }  

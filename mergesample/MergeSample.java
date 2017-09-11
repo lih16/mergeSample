@@ -121,7 +121,7 @@ public class MergeSample {
         String outputPath = args[1];
         String matrixFile = args[2];
 
-        SparkConf sconf = new SparkConf().set("spark.serializer", "org.apache.spark.serializer.KryoSerializer").set("spark.executor.memory", "2g");
+        SparkConf sconf = new SparkConf().set("spark.serializer", "org.apache.spark.serializer.KryoSerializer").set("spark.executor.memory", "2g");//.set("spark.driver.host","localhost");
         
         JavaSparkContext sc = new JavaSparkContext(sconf);
         Configuration conf = new Configuration();
@@ -168,19 +168,84 @@ public class MergeSample {
                   }
                   
                   // construct the value part of record
-                  HashMap<String, String> map = new HashMap<String, String>();
+                  ArrayList<String> templateFormat = new ArrayList<String>();
+                  HashMap<String, String> mapLast = new HashMap<String, String>();
+                  HashMap<String, String> mapFormat = new HashMap<String, String>();
                   for (String str : x._2) {
-                      String[] sl = str.split("#");
-                          if (sl.length > 1) {
-                               map.put(sl[0],sl[1]);
+                      String[] rawField = str.split("HHH");
+//System.out.println("raw " + rawField[0] + " " + rawField[1]);
+                      String[] twoComponent = rawField[0].split("#");
+System.out.println(" twocomp length [" + twoComponent.length + "]");
+                     if ((twoComponent.length > 1)&&(twoComponent[0].length() > 2)) {
+//System.out.println("comp " + twoComponent[0] + " 2 " + twoComponent[1]);
+                          String[] fFormat = twoComponent[1].split(":");
+                          for (int i = 0; i < fFormat.length; i++) {
+                              if (templateFormat.contains(fFormat[i]) == false) {
+                                  templateFormat.add(fFormat[i]);
+                              } 
                           }
+                          String[] sl = rawField[rawField.length -1].split("#");
+                          if (sl.length > 1) {
+                               mapLast.put(sl[0],sl[1]);
+                          }
+
+                          String[] elemLastField = sl[1].split(":"); 
+                          for (int i = 0; i < fFormat.length; i++) {
+                              mapFormat.put(twoComponent[0]+fFormat[i], elemLastField[i]);
+                          }
+
+                      }
+                     
+                      // analysis last field
+                     /*
+                      String[] sl = rawField[rawField.length -1].split("#");
+                          if (sl.length > 1) {
+                               mapLast.put(sl[0],sl[1]);
+                          }
+
+                      String[] elemLastField = sl[1].split(":"); 
+                      for (int i = 0; i < fFormat.length; i++) {
+                          mapFormat.put(twoComponent[0]+fFormat[i], elemLastField[i]);
+                      }
+                      */
                   }  
 
+                   // process the Format field
+                  if (templateFormat.size() > 5) {
+                  System.out.println(" template size ["+ templateFormat.size() +"]");
+
+                  for (int i=0; i<templateFormat.size()-1; i++ ) {
+                       //System.out.print(entry.getKey()+":");
+                       sb = sb.append(templateFormat.get(i) + ":");
+                  }
+                  sb = sb.append(templateFormat.get(templateFormat.size()-1) + "\t");
+                  }
+
+                                     
+
+                  // process the last field
                   for (String str : broadGlobalSampleList.value()) {
-                         if (map.containsKey(str)) {
+                         if (mapLast.containsKey(str)) {
+
                               sb = sb.append(str);
                               sb = sb.append("#");
-                              sb = sb.append(map.get(str));
+                              //sb = sb.append(map.get(str));
+                              for (int i=0; i<templateFormat.size()-1; i++) {
+                                  if (mapFormat.containsKey(str+templateFormat.get(i))==true) {
+                                        sb=sb.append(mapFormat.get(str+templateFormat.get(i)));
+                                        sb = sb.append(":");
+                                  } else {
+                                        sb=sb.append(".");
+                                        sb = sb.append(":");
+                                  }
+                              }
+                              if (mapFormat.containsKey(str+templateFormat.get(templateFormat.size()-1)) == true) {
+                             
+                                        sb=sb.append(mapFormat.get(str+templateFormat.get(templateFormat.size()-1)));
+                               } else {
+                                        sb = sb.append(".");
+                               }
+                              
                               sb = sb.append("\t");
                           }  else {
                               sb = sb.append(str);
