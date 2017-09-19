@@ -84,12 +84,14 @@ import java.util.Iterator;
 import java.util.ListIterator;
 import java.net.URI;
 import scala.Tuple2;
+
 public class MergeSample {
 
+    public static String flatHeader;
+
     public static ArrayList<String> extractSampleNameList() {
-         // hard code here. should read file and map() fetch header line
-         // collect() to create array
          // 
+         flatHeader = "D00009997_1096008545#D00009997_1096008568#D00009997_1096008579#D00009997_1096008601#D00009997_1096008602#D00009997_1096009089";
          ArrayList<String> rtn = new ArrayList<String>();
 
          rtn.add("D00009997_1096008545");
@@ -102,12 +104,22 @@ public class MergeSample {
          return rtn;
     } 
 
+    /**
+     * Name:   getHeader
+     * Desc:   return the header
+     * Param:  null
+     * return: String 
+     */
+    public static String getHeader() {
+        //return "D00009997_1096008545#D00009997_1096008568#D00009997_1096008579#D00009997_1096008601#D00009997_1096008602#D00009997_1096009089"; 
+        return flatHeader;
+    }
+
     public static ArrayList<String> setHeader(String str) {
              ArrayList<String> rtnStr = new ArrayList<String>();
              String s = "#CHROM" + "\t" + "POS" + "\t" + "ID" + "\t" + "REF" + "\t" + "ALT" + "\t" + "QUAL" + "\t" + "FILTER" + "\t" + "INFO" + "\t" + "FORMAT" + "\t"; 
-             // hard code here. the SampleList should be in parameter str. 
-             String tempStr = "D00009997_1096008545#D00009997_1096008568#D00009997_1096008579#D00009997_1096008601#D00009997_1096008602#D00009997_1096009089";
-             String[] splitStr = tempStr.split("#");
+
+             String[] splitStr = str.split("#");
              for (int i =0;i<splitStr.length; i++) {
                  s = s + splitStr[i] + "\t";
              }
@@ -260,7 +272,8 @@ System.out.println(" twocomp length [" + twoComponent.length + "]");
              } 
       });
 
-      ArrayList<String> al = setHeader(""); 
+      String myheader = getHeader();
+      ArrayList<String> al = setHeader(myheader); 
       JavaRDD<String> header = sc.parallelize(al);
       header.union(resultRDD).saveAsTextFile(outputPath);
 
