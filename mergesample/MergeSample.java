@@ -78,6 +78,7 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 import java.util.zip.GZIPInputStream;
 import java.util.Set;
 import java.util.Iterator;
@@ -88,6 +89,29 @@ import scala.Tuple2;
 public class MergeSample {
 
     public static String flatHeader;
+    public static Vector<String> rawHeader;
+
+
+
+    public static class getListOfFiles {
+
+
+          public Vector<String> getFiles(File path) { 
+            if (path.isFile()) {
+               rawHeader.add(path.toString());
+            }
+            if (path.isDirectory()) {
+                File[] listOfFiles = path.listFiles();
+                if (listOfFiles != null) {
+                    for (int i =0; i< listOfFiles.length; i++) {
+                        getFiles(listOfFiles[i]);
+                    }
+                }
+            }
+            return rawHeader;
+         }
+
+    } 
 
     public static ArrayList<String> extractSampleNameList() {
          // 
@@ -139,6 +163,12 @@ public class MergeSample {
         Configuration conf = new Configuration();
         conf.set("xmlinput.start", "<MedlineCitation");
         conf.set("xmlinput.end", "</MedlineCitation>");
+        File file;
+
+        getListOfFiles gListFile = new getListOfFiles();
+
+        System.out.println("files list : " + rawHeader);
+
 	JavaPairRDD<Text, Text> inputRDD = sc.newAPIHadoopFile(inputPath+"/*.gz", XmlInputFormat.class, Text.class, Text.class,conf);
 
         ArrayList<String> globalSampleList = extractSampleNameList();
