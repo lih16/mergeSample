@@ -1,5 +1,6 @@
 /*********************************************************************************************
  *   CLASS Name:        MergeSample                                                          *
+ *                                                                                           *
  *   CLASS Desc:        This class is used to merge VCF files by the Key. It is read by      *
  *                      newAPIHadoopFile API from Hadoop ( for performance requirement, we   *
  *                      did not use spark based file system). After it, we transform the RDD *
@@ -8,7 +9,10 @@
  *                      Last, we applied groupByKey() method to merge the values of each     *
  *                      record by the key.                                                   *
  *                                                                                           *
- * 
+ *                                                                                           * 
+ *   AUTHORS:           Dianwei Han, Hui Li                                                  *
+ *   CONTACT:           dianwei.han@mssm.edu, hui.li@mssm.edu                                *
+ *   COPYRIGHT:         2017-2018 Reserved by Sema4, Chen team.                              * 
  *********************************************************************************************/
 
 
@@ -64,6 +68,7 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.RemoteIterator;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IOUtils;
 import org.apache.hadoop.io.Text;
@@ -88,57 +93,59 @@ import scala.Tuple2;
 
 public class MergeSample {
 
-    public static String flatHeader;
-    public static Vector<String> rawHeader;
+    public static String flatSampleList = null;
+    public static ArrayList<String> rawSampleList = new ArrayList<String>();
 
+    public static void setRawSampleList(String pathStr, Configuration config) {
+        
+        try {
+           Path filesPath = new Path(pathStr);
+           FileSystem fs = FileSystem.get(config);
+           RemoteIterator<LocatedFileStatus> itr = fs.listFiles(filesPath, true);
+           while (itr.hasNext()) {
+                LocatedFileStatus f = itr.next();
+               if (!f.isDirectory() && f.getPath().getName().endsWith("gz")) {
+                   String cleanStr = f.getPath().getName().replace("superpanel_","").replace(".gvcf.gz","");
+                   rawSampleList.add(cleanStr);
+                   System.out.println("Header file "+ f.getPath().getName().toString());
+               }
+           }
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+    }
+ 
+    public static ArrayList<String> getRawSampleList() {
+       
+        return rawSampleList;
+    } 
 
+    public static void setFlatSampleList() {
 
-    public static class getListOfFiles {
-
-
-          public Vector<String> getFiles(File path) { 
-            if (path.isFile()) {
-               rawHeader.add(path.toString());
-            }
-            if (path.isDirectory()) {
-                File[] listOfFiles = path.listFiles();
-                if (listOfFiles != null) {
-                    for (int i =0; i< listOfFiles.length; i++) {
-                        getFiles(listOfFiles[i]);
-                    }
-                }
-            }
-            return rawHeader;
+         for (int i = 0 ; i < rawSampleList.size() - 1; i++) {
+             flatSampleList = flatSampleList + rawSampleList.get(i) + "#";
          }
 
-    } 
-
-    public static ArrayList<String> extractSampleNameList() {
-         // 
-         flatHeader = "D00009997_1096008545#D00009997_1096008568#D00009997_1096008579#D00009997_1096008601#D00009997_1096008602#D00009997_1096009089";
-         ArrayList<String> rtn = new ArrayList<String>();
-
-         rtn.add("D00009997_1096008545");
-         rtn.add("D00009997_1096008568");
-         rtn.add("D00009997_1096008579");
-         rtn.add("D00009997_1096008601");
-         rtn.add("D00009997_1096008602");
-         rtn.add("D00009997_1096009089");
-
-         return rtn;
-    } 
+         flatSampleList = flatSampleList + rawSampleList.get(rawSampleList.size()-1);
+     
+     }
 
     /**
-     * Name:   getHeader
-     * Desc:   return the header
+     * Name:   getFlatSampleList
+     * Desc:   return the flatSampleList 
      * Param:  null
      * return: String 
      */
-    public static String getHeader() {
-        //return "D00009997_1096008545#D00009997_1096008568#D00009997_1096008579#D00009997_1096008601#D00009997_1096008602#D00009997_1096009089"; 
-        return flatHeader;
+    public static String getFlatSampleList() {
+        return flatSampleList;
     }
 
+    /**
+     * Name:   setHeader
+     * Desc:   set the samplelist field and the other fields.
+     * Param:  String str
+     * return: String
+     */
     public static ArrayList<String> setHeader(String str) {
              ArrayList<String> rtnStr = new ArrayList<String>();
              String s = "#CHROM" + "\t" + "POS" + "\t" + "ID" + "\t" + "REF" + "\t" + "ALT" + "\t" + "QUAL" + "\t" + "FILTER" + "\t" + "INFO" + "\t" + "FORMAT" + "\t"; 
@@ -165,13 +172,12 @@ public class MergeSample {
         conf.set("xmlinput.end", "</MedlineCitation>");
         File file;
 
-        getListOfFiles gListFile = new getListOfFiles();
-
-        System.out.println("files list : " + rawHeader);
+        setRawSampleList(inputPath, sc.hadoopConfiguration()); 
+        System.out.println("files list : " + rawSampleList);
 
 	JavaPairRDD<Text, Text> inputRDD = sc.newAPIHadoopFile(inputPath+"/*.gz", XmlInputFormat.class, Text.class, Text.class,conf);
 
-        ArrayList<String> globalSampleList = extractSampleNameList();
+        ArrayList<String> globalSampleList = getRawSampleList();
         final Broadcast<ArrayList<String>> broadGlobalSampleList = sc.broadcast(globalSampleList);
 
         System.out.println(" NUMofinputRDD " + inputRDD.count());
@@ -302,8 +308,8 @@ System.out.println(" twocomp length [" + twoComponent.length + "]");
              } 
       });
 
-      String myheader = getHeader();
-      ArrayList<String> al = setHeader(myheader); 
+      String flatsamplelist = getFlatSampleList();
+      ArrayList<String> al = setHeader(flatsamplelist); 
       JavaRDD<String> header = sc.parallelize(al);
       header.union(resultRDD).saveAsTextFile(outputPath);
 
