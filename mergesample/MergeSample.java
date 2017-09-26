@@ -150,6 +150,7 @@ public class MergeSample {
              ArrayList<String> rtnStr = new ArrayList<String>();
              String s = "#CHROM" + "\t" + "POS" + "\t" + "ID" + "\t" + "REF" + "\t" + "ALT" + "\t" + "QUAL" + "\t" + "FILTER" + "\t" + "INFO" + "\t" + "FORMAT" + "\t"; 
 
+System.out.println("str " + str);
              String[] splitStr = str.split("#");
              for (int i =0;i<splitStr.length; i++) {
                  s = s + splitStr[i] + "\t";
@@ -219,13 +220,28 @@ public class MergeSample {
                   ArrayList<String> templateFormat = new ArrayList<String>();
                   HashMap<String, String> mapLast = new HashMap<String, String>();
                   HashMap<String, String> mapFormat = new HashMap<String, String>();
+                  ArrayList<String> altList = new ArrayList<String>();
+                  ArrayList<Double> qualList = new ArrayList<Double>();
+                  String filter = new String();
+                  String info = new String();
+
                   for (String str : x._2) {
                       String[] rawField = str.split("HHH");
-//System.out.println("raw " + rawField[0] + " " + rawField[1]);
-                      String[] twoComponent = rawField[0].split("#");
-System.out.println(" twocomp length [" + twoComponent.length + "]");
+                      String alt = rawField[0];
+
+                      if (altList.contains(alt) == false) {
+                          altList.add(alt);
+                      } 
+
+                      String qual = rawField[1];
+                      if (qual.equals(".") == false) {
+                          qualList.add(Double.parseDouble(qual)); 
+                      } 
+                      filter = rawField[2];
+                      info = rawField[3];
+
+                      String[] twoComponent = rawField[4].split("#");
                      if ((twoComponent.length > 1)&&(twoComponent[0].length() > 2)) {
-//System.out.println("comp " + twoComponent[0] + " 2 " + twoComponent[1]);
                           String[] fFormat = twoComponent[1].split(":");
                           for (int i = 0; i < fFormat.length; i++) {
                               if (templateFormat.contains(fFormat[i]) == false) {
@@ -244,21 +260,27 @@ System.out.println(" twocomp length [" + twoComponent.length + "]");
 
                       }
                      
-                      // analysis last field
-                     /*
-                      String[] sl = rawField[rawField.length -1].split("#");
-                          if (sl.length > 1) {
-                               mapLast.put(sl[0],sl[1]);
-                          }
-
-                      String[] elemLastField = sl[1].split(":"); 
-                      for (int i = 0; i < fFormat.length; i++) {
-                          mapFormat.put(twoComponent[0]+fFormat[i], elemLastField[i]);
-                      }
-                      */
                   }  
 
-                   // process the Format field
+                  // process the Alt field
+                  for (int i=0; i<altList.size()-1; i++ ) {
+                       //System.out.print(entry.getKey()+":");
+                       sb = sb.append(altList.get(i) + "|");
+                  }
+                  sb = sb.append(altList.get(altList.size()-1) + "\t");
+                   
+                  // process the Qual field
+                  double sum=0.0;
+                  for ( Double dbl : qualList ) {
+                      sum = sum + dbl;
+                  }
+                  sum = sum/qualList.size();
+                  sb = sb.append(sum + "\t");
+                  
+                  sb = sb.append(filter + "\t");
+                  sb = sb.append(info + "\t");
+
+                  // process the Format field
                   if (templateFormat.size() > 5) {
                   System.out.println(" template size ["+ templateFormat.size() +"]");
 
