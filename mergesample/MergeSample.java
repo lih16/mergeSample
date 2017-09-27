@@ -93,7 +93,7 @@ import scala.Tuple2;
 
 public class MergeSample {
 
-    public static String flatSampleList = null;
+    public static String flatSampleList="";
     public static ArrayList<String> rawSampleList = new ArrayList<String>();
 
     public static void setRawSampleList(String pathStr, Configuration config) {
@@ -175,6 +175,7 @@ System.out.println("str " + str);
 
         setRawSampleList(inputPath, sc.hadoopConfiguration()); 
         System.out.println("files list : " + rawSampleList);
+        setFlatSampleList();
 
 	JavaPairRDD<Text, Text> inputRDD = sc.newAPIHadoopFile(inputPath+"/*.gz", XmlInputFormat.class, Text.class, Text.class,conf);
 
@@ -204,10 +205,15 @@ System.out.println("str " + str);
           new Function<Tuple2<String, Iterable<String>>, String>() {
               public String call(Tuple2<String, Iterable<String>> x) {
 
-                  //System.out.println(" key " + x._1 + " value " + x._2); 
+                  System.out.println(" key " + x._1 + " value " + x._2); 
 
                   String rtnStr = new String();
                   StringBuilder sb = new StringBuilder();
+
+                  if (x._1.equals("comment") || x._1.equals("header")) {
+                     return ""; 
+                  }
+
                   String[] keyStr = x._1.split("#");
 
                   // construct the key part of record
@@ -227,21 +233,27 @@ System.out.println("str " + str);
 
                   for (String str : x._2) {
                       String[] rawField = str.split("HHH");
-                      String alt = rawField[0];
+System.out.println("HHH str [" + str + "]");
+                      if (rawField.length >=3) {
+                          String alt = rawField[0];
 
-                      if (altList.contains(alt) == false) {
-                          altList.add(alt);
-                      } 
+                          if (altList.contains(alt) == false) {
+                              altList.add(alt);
+                          } 
 
-                      String qual = rawField[1];
-                      if (qual.equals(".") == false) {
-                          qualList.add(Double.parseDouble(qual)); 
-                      } 
-                      filter = rawField[2];
-                      info = rawField[3];
+                          String qual = rawField[1];
+System.out.println("qual " + qual);
+                          if (qual.equals(".") == false) {
+                              qualList.add(Double.parseDouble(qual)); 
+                          } else {
+                              qualList.add(1.0);
+                          }
+                         
+                          filter = rawField[2];
+                          info = rawField[3];
 
-                      String[] twoComponent = rawField[4].split("#");
-                     if ((twoComponent.length > 1)&&(twoComponent[0].length() > 2)) {
+                          String[] twoComponent = rawField[4].split("#");
+                    // if ((twoComponent.length > 1)&&(twoComponent[0].length() > 2)) {
                           String[] fFormat = twoComponent[1].split(":");
                           for (int i = 0; i < fFormat.length; i++) {
                               if (templateFormat.contains(fFormat[i]) == false) {
@@ -258,16 +270,19 @@ System.out.println("str " + str);
                               mapFormat.put(twoComponent[0]+fFormat[i], elemLastField[i]);
                           }
 
-                      }
+                     // }
                      
+                      }
                   }  
 
                   // process the Alt field
-                  for (int i=0; i<altList.size()-1; i++ ) {
+                  if (altList.size() > 0) {
+                     for (int i=0; i<altList.size()-1; i++ ) {
                        //System.out.print(entry.getKey()+":");
                        sb = sb.append(altList.get(i) + "|");
+                     }
+                     sb = sb.append(altList.get(altList.size()-1) + "\t");
                   }
-                  sb = sb.append(altList.get(altList.size()-1) + "\t");
                    
                   // process the Qual field
                   double sum=0.0;

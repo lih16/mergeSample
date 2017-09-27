@@ -141,7 +141,8 @@ String symbol=line.toString().substring(0,2);
         if(symbol.equals("##")){ 
           
 			key.set("comment");
-			value.set("NA"); 
+			//value.set("NA"); 
+                        value.set(line);
 			return true;
         } 
 		symbol=line.toString().substring(0,6);//#CHROM
@@ -172,7 +173,7 @@ String symbol=line.toString().substring(0,2);
         //key.set(words[0]+"#"+words[1]+"#"+words[2]+"#"+words[3]+"#"+words[4]+"#"+words[5]+"#"+words[6]+"#"+words[7]);  
         key.set(words[0]+"#"+words[1]+"#"+words[2]+"#"+words[3]);//+"#"+words[4]+"#"+words[5]+"#"+words[6]+"#"+words[7]);  
         //value.set(words[6]+"|"+words[9]);  
-        value.set(samplename+"#"+words[4]+"HHH"+samplename+"#"+words[5]+"HHH"+samplename+"#"+words[8]+"HHH"+samplename+"#"+words[9]);  
+        value.set(words[4]+"HHH"+words[5]+"HHH"+words[6]+"HHH"+words[7]+"HHH"+samplename+"#"+words[8]+"HHH"+samplename+"#"+words[9]);  
         return true;  
           
     }  
