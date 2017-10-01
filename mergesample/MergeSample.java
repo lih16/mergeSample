@@ -7,7 +7,8 @@
  *                      from TEXT to String format. Then we applied distinct() method to     *
  *                      remove the duplicates. So we obtained distinct RDDs right now.       *
  *                      Last, we applied groupByKey() method to merge the values of each     *
- *                      record by the key.                                                   *
+ *                      record by the key. To obtain the whole merged file, we union         *
+ *                      the common header and field header with it.                          *
  *                                                                                           *
  *                                                                                           * 
  *   AUTHORS:           Dianwei Han, Hui Li                                                  *
@@ -96,6 +97,38 @@ public class MergeSample {
     public static String flatSampleList="";
     public static ArrayList<String> rawSampleList = new ArrayList<String>();
 
+    /**
+     * Name:   getFileNameforCommonHeader 
+     * Desc:   get the file name which contains the common header of VCF files 
+     * Param:  inputPath, Configuration 
+     * return: String (file name) 
+     */
+
+    public static String getFileNameforCommonHeader(String pathStr, Configuration config) {
+        
+        try {
+           Path filesPath = new Path(pathStr);
+           FileSystem fs = FileSystem.get(config);
+           RemoteIterator<LocatedFileStatus> itr = fs.listFiles(filesPath, true);
+           while (itr.hasNext()) {
+               LocatedFileStatus f = itr.next();
+               if (!f.isDirectory()) {
+                   return f.getPath().getName();
+               }
+           }
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+        return "NA";
+    }
+
+    /**
+     * Name:   setRawSampleList
+     * Desc:   set RawSampleList 
+     * Param:  inputPath, Configuration 
+     * return: null 
+     */
+
     public static void setRawSampleList(String pathStr, Configuration config) {
         
         try {
@@ -103,22 +136,37 @@ public class MergeSample {
            FileSystem fs = FileSystem.get(config);
            RemoteIterator<LocatedFileStatus> itr = fs.listFiles(filesPath, true);
            while (itr.hasNext()) {
-                LocatedFileStatus f = itr.next();
+               LocatedFileStatus f = itr.next();
                if (!f.isDirectory() && f.getPath().getName().endsWith("gz")) {
                    String cleanStr = f.getPath().getName().replace("superpanel_","").replace(".gvcf.gz","");
                    rawSampleList.add(cleanStr);
-                   System.out.println("Header file "+ f.getPath().getName().toString());
                }
            }
         } catch (Exception e) {
           e.printStackTrace();
         }
+
     }
  
+    /**
+     * Name:   getRawSampleList
+     * Desc:   get RawSampleList 
+     * Param:  null
+     * return: rawSampleList (static variable) 
+     */
+
     public static ArrayList<String> getRawSampleList() {
-       
+
         return rawSampleList;
+
     } 
+
+    /**
+     * Name:   setFlatSampleList
+     * Desc:   set FlatSampleList through rawSampleList
+     * Param:  null
+     * return: null
+     */
 
     public static void setFlatSampleList() {
 
@@ -134,23 +182,24 @@ public class MergeSample {
      * Name:   getFlatSampleList
      * Desc:   return the flatSampleList 
      * Param:  null
-     * return: String 
+     * return: flatSampleList (static variable) 
      */
+
     public static String getFlatSampleList() {
         return flatSampleList;
     }
 
     /**
-     * Name:   setHeader
+     * Name:   setFieldHeader
      * Desc:   set the samplelist field and the other fields.
      * Param:  String str
-     * return: String
+     * return: ArrayList<String>
      */
-    public static ArrayList<String> setHeader(String str) {
+
+    public static ArrayList<String> setFieldHeader(String str) {
              ArrayList<String> rtnStr = new ArrayList<String>();
              String s = "#CHROM" + "\t" + "POS" + "\t" + "ID" + "\t" + "REF" + "\t" + "ALT" + "\t" + "QUAL" + "\t" + "FILTER" + "\t" + "INFO" + "\t" + "FORMAT" + "\t"; 
 
-System.out.println("str " + str);
              String[] splitStr = str.split("#");
              for (int i =0;i<splitStr.length; i++) {
                  s = s + splitStr[i] + "\t";
@@ -163,26 +212,50 @@ System.out.println("str " + str);
 
         String inputPath  = args[0];
         String outputPath = args[1];
-        String matrixFile = args[2];
 
-        SparkConf sconf = new SparkConf().set("spark.serializer", "org.apache.spark.serializer.KryoSerializer").set("spark.executor.memory", "2g");//.set("spark.driver.host","localhost");
+        // you can set your own config params here based on your requirements.
+        SparkConf sconf = new SparkConf().set("spark.serializer", "org.apache.spark.serializer.KryoSerializer").set("spark.executor.memory", "2g");
         
         JavaSparkContext sc = new JavaSparkContext(sconf);
         Configuration conf = new Configuration();
-        conf.set("xmlinput.start", "<MedlineCitation");
-        conf.set("xmlinput.end", "</MedlineCitation>");
-        File file;
+        conf.set("xmlinput.start", "<mergestart>");
+        conf.set("xmlinput.end", "</mergeend>");
+
+
+        String chFileName = getFileNameforCommonHeader(inputPath, sc.hadoopConfiguration());
+        JavaRDD<String> initCommonHeader;
+        JavaRDD<String> commonHeader = null;
+ 
+        if (!chFileName.equals("NA")) {
+             initCommonHeader = sc.textFile(inputPath + "/" + chFileName);
+
+             commonHeader = initCommonHeader.filter (
+                 new Function<String, Boolean>() {
+                     public Boolean call(String s) throws Exception {
+                         if (!s.contains("##")) {
+                             return false;
+                         }
+                         return true;
+                     } 
+             });
+        } else {
+            System.out.println("Sorry, there are no VCF files under " + inputPath);
+            System.exit(0);
+        }
 
         setRawSampleList(inputPath, sc.hadoopConfiguration()); 
-        System.out.println("files list : " + rawSampleList);
+
+        if (rawSampleList.size() < 1) {
+            System.out.println("Sorry, there are no VCF files under " + inputPath);
+            System.exit(0);
+        }
+            
         setFlatSampleList();
 
 	JavaPairRDD<Text, Text> inputRDD = sc.newAPIHadoopFile(inputPath+"/*.gz", XmlInputFormat.class, Text.class, Text.class,conf);
 
         ArrayList<String> globalSampleList = getRawSampleList();
         final Broadcast<ArrayList<String>> broadGlobalSampleList = sc.broadcast(globalSampleList);
-
-        System.out.println(" NUMofinputRDD " + inputRDD.count());
 
         JavaPairRDD<String, String> stringRDD=  inputRDD.mapToPair(new PairFunction<Tuple2<Text, Text>, String, String>() {
            public Tuple2<String, String> call(Tuple2<Text, Text> t) {
@@ -191,165 +264,160 @@ System.out.println("str " + str);
 
         }});
        
-        System.out.println(" NUMofsringRDD " + stringRDD.count());
-        System.out.println(" NUMdistinctRDD " + stringRDD.distinct().count());
 
-      JavaPairRDD<String, String> distinctRDD = stringRDD.distinct();
+        JavaPairRDD<String, String> distinctRDD = stringRDD.distinct();
 
-      JavaPairRDD<String, Iterable<String>> groupRDD = distinctRDD.groupByKey();
-
-        System.out.println(" NUMofgroup RDD " + groupRDD.count());
+        JavaPairRDD<String, Iterable<String>> groupRDD = distinctRDD.groupByKey();
 
 
-      JavaRDD<String>  resultRDD = groupRDD.map( 
-          new Function<Tuple2<String, Iterable<String>>, String>() {
-              public String call(Tuple2<String, Iterable<String>> x) {
+        JavaRDD<String>  resultRDD = groupRDD.map( 
+            new Function<Tuple2<String, Iterable<String>>, String>() {
+                public String call(Tuple2<String, Iterable<String>> x) {
 
-                  System.out.println(" key " + x._1 + " value " + x._2); 
 
-                  String rtnStr = new String();
-                  StringBuilder sb = new StringBuilder();
+                    String rtnStr = new String();
+                    StringBuilder sb = new StringBuilder();
 
-                  if (x._1.equals("comment") || x._1.equals("header")) {
-                     return ""; 
-                  }
-
-                  String[] keyStr = x._1.split("#");
-
-                  // construct the key part of record
-                  for (int i = 0; i < keyStr.length; i++) {
-                       sb = sb.append(keyStr[i]);
-                       sb = sb.append("\t");
-                  }
+                    if (x._1.equals("comment") || x._1.equals("header") || x._1.equals("NA")) {
+                       return "NA"; 
+                    }
                   
-                  // construct the value part of record
-                  ArrayList<String> templateFormat = new ArrayList<String>();
-                  HashMap<String, String> mapLast = new HashMap<String, String>();
-                  HashMap<String, String> mapFormat = new HashMap<String, String>();
-                  ArrayList<String> altList = new ArrayList<String>();
-                  ArrayList<Double> qualList = new ArrayList<Double>();
-                  String filter = new String();
-                  String info = new String();
 
-                  for (String str : x._2) {
-                      String[] rawField = str.split("HHH");
-System.out.println("HHH str [" + str + "]");
-                      if (rawField.length >=3) {
-                          String alt = rawField[0];
+                    String[] keyStr = x._1.split("#");
 
-                          if (altList.contains(alt) == false) {
-                              altList.add(alt);
-                          } 
+                    // construct the key part of record
+                    for (int i = 0; i < keyStr.length; i++) {
+                        sb = sb.append(keyStr[i]);
+                        sb = sb.append("\t");
+                    }
+                  
+                    // construct the value part of record
+                    ArrayList<String> templateFormat = new ArrayList<String>();
+                    HashMap<String, String> mapLast = new HashMap<String, String>();
+                    HashMap<String, String> mapFormat = new HashMap<String, String>();
+                    ArrayList<String> altList = new ArrayList<String>();
+                    ArrayList<Double> qualList = new ArrayList<Double>();
+                    String filter = new String();
+                    String info = new String();
 
-                          String qual = rawField[1];
-System.out.println("qual " + qual);
-                          if (qual.equals(".") == false) {
-                              qualList.add(Double.parseDouble(qual)); 
-                          } else {
-                              qualList.add(1.0);
-                          }
+                    for (String str : x._2) {
+                        String[] rawField = str.split("HHH");
+                        if (rawField.length >=3) {
+                            String alt = rawField[0];
+
+                            if (altList.contains(alt) == false) {
+                               altList.add(alt);
+                            } 
+
+                            String qual = rawField[1];
+                            if (qual.equals(".") == false) {
+                                qualList.add(Double.parseDouble(qual)); 
+                            } else {
+                                qualList.add(1.0);
+                            }
                          
-                          filter = rawField[2];
-                          info = rawField[3];
+                            filter = rawField[2];
+                            info = rawField[3];
 
-                          String[] twoComponent = rawField[4].split("#");
-                    // if ((twoComponent.length > 1)&&(twoComponent[0].length() > 2)) {
-                          String[] fFormat = twoComponent[1].split(":");
-                          for (int i = 0; i < fFormat.length; i++) {
-                              if (templateFormat.contains(fFormat[i]) == false) {
-                                  templateFormat.add(fFormat[i]);
-                              } 
-                          }
-                          String[] sl = rawField[rawField.length -1].split("#");
-                          if (sl.length > 1) {
-                               mapLast.put(sl[0],sl[1]);
-                          }
+                            String[] twoComponent = rawField[4].split("#");
+                            String[] fFormat = twoComponent[1].split(":");
+                            for (int i = 0; i < fFormat.length; i++) {
+                                if (templateFormat.contains(fFormat[i]) == false) {
+                                    templateFormat.add(fFormat[i]);
+                                } 
+                            }
+                            String[] sl = rawField[rawField.length -1].split("#");
+                            if (sl.length > 1) {
+                                mapLast.put(sl[0],sl[1]);
+                            }
 
-                          String[] elemLastField = sl[1].split(":"); 
-                          for (int i = 0; i < fFormat.length; i++) {
-                              mapFormat.put(twoComponent[0]+fFormat[i], elemLastField[i]);
-                          }
-
-                     // }
+                            String[] elemLastField = sl[1].split(":"); 
+                            for (int i = 0; i < fFormat.length; i++) {
+                                mapFormat.put(twoComponent[0]+fFormat[i], elemLastField[i]);
+                            }
                      
-                      }
-                  }  
+                        }
+                    }  
 
-                  // process the Alt field
-                  if (altList.size() > 0) {
-                     for (int i=0; i<altList.size()-1; i++ ) {
-                       //System.out.print(entry.getKey()+":");
-                       sb = sb.append(altList.get(i) + "|");
-                     }
-                     sb = sb.append(altList.get(altList.size()-1) + "\t");
-                  }
+                    // process the Alt field
+                    if (altList.size() > 0) {
+                        for (int i=0; i<altList.size()-1; i++ ) {
+                            sb = sb.append(altList.get(i) + "|");
+                        }
+                        sb = sb.append(altList.get(altList.size()-1) + "\t");
+                    }
                    
-                  // process the Qual field
-                  double sum=0.0;
-                  for ( Double dbl : qualList ) {
-                      sum = sum + dbl;
-                  }
-                  sum = sum/qualList.size();
-                  sb = sb.append(sum + "\t");
+                    // process the Qual field
+                    double sum=0.0;
+                    for ( Double dbl : qualList ) {
+                        sum = sum + dbl;
+                    }
+                    sum = sum/qualList.size();
+                    sb = sb.append(sum + "\t");
                   
-                  sb = sb.append(filter + "\t");
-                  sb = sb.append(info + "\t");
+                    // process the filter field
+                    sb = sb.append(filter + "\t");
 
-                  // process the Format field
-                  if (templateFormat.size() > 5) {
-                  System.out.println(" template size ["+ templateFormat.size() +"]");
+                    // process the info field
+                    sb = sb.append(info + "\t");
 
-                  for (int i=0; i<templateFormat.size()-1; i++ ) {
-                       //System.out.print(entry.getKey()+":");
-                       sb = sb.append(templateFormat.get(i) + ":");
-                  }
-                  sb = sb.append(templateFormat.get(templateFormat.size()-1) + "\t");
-                  }
+                    // process the Format field
+                    if (templateFormat.size() > 5) {
 
-                                     
+                        for (int i=0; i<templateFormat.size()-1; i++ ) {
+                            sb = sb.append(templateFormat.get(i) + ":");
+                        }
+                        sb = sb.append(templateFormat.get(templateFormat.size()-1) + "\t");
+                    }
 
-                  // process the last field
-                  for (String str : broadGlobalSampleList.value()) {
-                         if (mapLast.containsKey(str)) {
-
-                              sb = sb.append(str);
-                              sb = sb.append("#");
-                              //sb = sb.append(map.get(str));
-                              for (int i=0; i<templateFormat.size()-1; i++) {
-                                  if (mapFormat.containsKey(str+templateFormat.get(i))==true) {
-                                        sb=sb.append(mapFormat.get(str+templateFormat.get(i)));
-                                        sb = sb.append(":");
-                                  } else {
-                                        sb=sb.append(".");
-                                        sb = sb.append(":");
-                                  }
-                              }
-                              if (mapFormat.containsKey(str+templateFormat.get(templateFormat.size()-1)) == true) {
-                             
-                                        sb=sb.append(mapFormat.get(str+templateFormat.get(templateFormat.size()-1)));
-                               } else {
-                                        sb = sb.append(".");
-                               }
+                    // process the last field
+                    for (String str : broadGlobalSampleList.value()) {
+                        if (mapLast.containsKey(str)) {
+                            sb = sb.append(str);
+                            sb = sb.append("#");
+                            for (int i=0; i<templateFormat.size()-1; i++) {
+                                if (mapFormat.containsKey(str+templateFormat.get(i))==true) {
+                                    sb=sb.append(mapFormat.get(str+templateFormat.get(i)));
+                                    sb = sb.append(":");
+                                } else {
+                                    sb=sb.append(".");
+                                    sb = sb.append(":");
+                                }
+                            }
+                            if (mapFormat.containsKey(str+templateFormat.get(templateFormat.size()-1)) == true) {
+                                sb=sb.append(mapFormat.get(str+templateFormat.get(templateFormat.size()-1)));
+                            } else {
+                                sb = sb.append(".");
+                            }
                               
-                              sb = sb.append("\t");
-                          }  else {
-                              sb = sb.append(str);
-                              sb = sb.append("#");
-                              sb = sb.append("NA");
-                              sb = sb.append("\t");
-                          }
-                  }
- 
+                            sb = sb.append("\t");
+                        }  else {
+                            sb = sb.append(str);
+                            sb = sb.append("#");
+                            sb = sb.append("NA");
+                            sb = sb.append("\t");
+                        }
+                    }
 
-                  return sb.toString(); 
-             } 
-      });
+                    return sb.toString(); 
 
-      String flatsamplelist = getFlatSampleList();
-      ArrayList<String> al = setHeader(flatsamplelist); 
-      JavaRDD<String> header = sc.parallelize(al);
-      header.union(resultRDD).saveAsTextFile(outputPath);
+                } 
+        });
+      
+        JavaRDD<String> dataRDD = resultRDD.filter (
+            new Function<String, Boolean>() {
+                public Boolean call(String s) throws Exception {
+                    if (s.equals("NA")) {
+                        return false;
+                    }
+                    return true;
+                } 
+        });  
 
+        String flatsamplelist = getFlatSampleList();
+        ArrayList<String> al = setFieldHeader(flatsamplelist); 
+        JavaRDD<String> fieldHeader = sc.parallelize(al);
+        commonHeader.union(fieldHeader).union(dataRDD).saveAsTextFile(outputPath);
          
     }
 }
