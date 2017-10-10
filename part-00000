@@ -1,0 +1,83 @@
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.mrelationship.sequenceL.display_start  :::  232526160||232526160||233390869
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.mrelationship.Symbol.ElementValue  :::  RTEL1-TNFRSF6B||CHRND||CHRND
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.mrelationship.Name.ElementValue  :::  methylmalonic aciduria (cobalamin deficiency) cblC type, with homocystinuria||cholinergic receptor nicotinic delta subunit||cholinergic receptor nicotinic delta subunit
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.mrelationship.sequenceL.AssemblyStatus  :::  previous||current||previous
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.Measure.sequenceLocation.AssemblyStatus  :::  previous||current||previous
+ReferenceClinvarAssertion.MeasureSet.Measure.sqL.referenceAlleleVCF  :::  TTACCACTTGATCCTGGGAGGCCCTGCAGGCCTGGTGCTCCAGGCAAGCCAGG||A||A
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.Measure.Name.ElementValue  :::  NM_152490.4(B3GALNT2):c.1438_1455dup18 (p.Trp485_Lys486insGluLeuThrGluLeuTrp)||NM_000751.2(CHRND):c.1319A>G (p.Asp440Gly)||NM_000751.2(CHRND):c.73G>T (p.Glu25Ter)
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.Measure.sequenceLocation.variantLength  :::  1222475||1||1
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.mrelationship.sequenceL.start  :::  232526160||232526160||233390869
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.mrelationship.sequenceL.variantLength  :::  308887||10506||10506
+ReferenceClinvarAssertion.GenotypeSet.Name.ElementValue  :::  NM_003977.3(AIP):c.[878_879delAGinsGT];[880_891delCTGGACCCAGCC]||NM_000751.2(CHRND):c.[1319A>G];[73G>T]||NM_130466.3(UBE3B):c.[1773delC];[1A>G]
+ReferenceClinvarAssertion.MeasureSet.Measure.sqL.Chr  :::  12||2||2
+ReferenceClinvarAssertion.DateCreated  :::  2012-08-13||2012-08-13||2014-01-17
+ReferenceClinvarAssertion.MeasureSet.Measure.Name.ElementValue  :::  NM_001267550.2(TTN):c.42315_42318delGAAA (p.Lys14105Asnfs)||NM_000751.2(CHRND):c.1319A>G (p.Asp440Gly)||NM_130466.3(UBE3B):c.1773delC (p.Gln592Serfs)
+ReferenceClinvarAssertion.MeasureSet.Measure.sqL.display_start  :::  232534290||232534290||233399000
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.Measure.sequenceLocation.referenceAllele  :::  TCCCAGACCATC||A||A
+ReferenceClinvarAssertion.MeasureSet.Measure.sqL.AssemblyAccessVersion  :::  GCF_000001405.33||GCF_000001405.33||GCF_000001405.25
+ReferenceClinvarAssertion.MeasureSet.Measure.AttributeSet.Attribute  :::  NC_000003.12:g.128910015_128910026delTCCCAGACCATC||NM_000751.2:c.1319A>G||NG_008028.1:g.13079A>G
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.Measure.sequenceLocation.stop  :::  232534290||232534290||233399000
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.Measure.sequenceLocation.referenceAlleVCF  :::  TTACCACTTGATCCTGGGAGGCCCTGCAGGCCTGGTGCTCCAGGCAAGCCAGG||A||A
+ReferenceClinvarAssertion.MeasureSet.Measure.Type  :::  single nucleotide variant||single nucleotide variant||Deletion
+ReferenceClinvarAssertion.MeasureSet.Measure.Measurerelationship.Name.ElementValue  :::  methylmalonic aciduria (cobalamin deficiency) cblC type, with homocystinuria||cholinergic receptor nicotinic delta subunit||ubiquitin protein ligase E3B
+ReferenceClinvarAssertion.MeasureSet.Measure.CytogeneticLocation  :::  12q24.11||2q37.1||12q24.11
+ReferenceClinvarAssertion.ObservedInSet.Sample.Species  :::  human||human||human
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.Measure.sequenceLocation.Accession  :::  NC_000002.12||NC_000002.12||NC_000002.11
+ReferenceClinvarAssertion.MeasureSet.Measure.sqL.Assembly  :::  GRCh38||GRCh38||GRCh37
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.mrelationship.sequenceL.stop  :::  232537907||232537907||233401374
+ReferenceClinvarAssertion.MeasureSet.Measure.sqL.variantLength  :::  16||1||1
+ReferenceClinvarAssertion.ClinicalSignificance.Description  :::  Conflicting interpretations of pathogenicity, not provided||Pathogenic||Pathogenic
+ReferenceClinvarAssertion.ObservedInSet.Method.Purpose  :::  assert pathogenicity||Discovery||Discovery
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.Measure.CytogeneticLocation  :::  12q24.11||2q37.1||2q37.1
+ReferenceClinvarAssertion.MeasureSet.Measure.sqL.stop  :::  232534290||232534290||233399000
+ReferenceClinvarAssertion.MeasureSet.Measure.sqL.start  :::  232534290||232534290||233399000
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.Measure.AttributeSet.Attribute  :::  NC_000018.10:g.(?_79973783)_(79973853_79977598)del||NM_000751.2:c.1319A>G||NG_008028.1:g.13079A>G
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.Measure.sequenceLocation.positionVCF  :::  232534290||232534290||233399000
+ReferenceClinvarAssertion.ObservedInSet.Method.NamePlatform  :::  Illumina Sequencing Platform||HiSeq||HiSeq
+ReferenceClinvarAssertion.MeasureSet.Measure.sqL.Accession  :::  NC_000002.12||NC_000002.12||NC_000002.11
+ReferenceClinvarAssertion.ObservedInSet.Sample.Ethnicity  :::  European Caucasian,African American||Spanish||Persian
+ReferenceClinvarAssertion.GenotypeSet.AttributeSet.Attribute  :::  NM_003977.3:c.[878_879delAGinsGT];[880_891delCTGGACCCAGCC]||NM_000751.2:c.[1319A>G];[73G>T]||NM_130466.3:c.[1773delC];[1A>G]
+ReferenceClinvarAssertion.MeasureSet.Measure.sqL.alternateAllele  :::  GTAC||G||G
+ReferenceClinvarAssertion.MeasureSet.Name.ElementValue  :::  MARS, SER567LEU (rs143592405) AND ALA393THR (rs141340466)||NM_156039.3(CSF3R):c.948_963del16 (p.His317Alafs)||NM_004990.3(MARS):c.[1700C>T;1177G>A]
+ReferenceClinvarAssertion.ObservedInSet.Sample.Origin  :::  not provided||germline||germline
+ReferenceClinvarAssertion.MeasureSet.Measure.Measurerelationship.Type  :::  within multiple genes by overlap||within single gene||within single gene
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.mrelationship.sequenceL.AssemblyAccess  :::  GCF_000001405.33||GCF_000001405.33||GCF_000001405.25
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.Measure.sequenceLocation.AssemblyAccess  :::  GCF_000001405.33||GCF_000001405.33||GCF_000001405.25
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.Measure.sequenceLocation.Chr  :::  12||2||2
+ReferenceClinvarAssertion.MeasureSet.Measure.sqL.alternateAlleleVCF  :::  GGTAC||G||G
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.Measure.sequenceLocation.Assembly  :::  GRCh38||GRCh38||GRCh37
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.Measure.XRef.ID  :::  NM_001305563.1:c.-60-10913_-60-10880del34||SO:0001583||NM_000751.2:c.1319A>G
+ReferenceClinvarAssertion.MeasureSet.Measure.Measurerelationship.Symbol.ElementValue  :::  RTEL1-TNFRSF6B||CHRND||UBE3B
+ReferenceClinvarAssertion.ObservedInSet.Sample.FamilyData  :::  ||||
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.Name.ElementValue  :::  NM_000785.3(CYP27B1):c.1319_1325dupCCCACCC (p.Phe443Profs)||NM_156039.3(CSF3R):c.948_963del16 (p.His317Alafs)||NM_156039.3(CSF3R):c.1245delG (p.Thr416Profs)
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.mrelationship.Type  :::  within multiple genes by overlap||within single gene||within single gene
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.XRef.BD  :::  Gene||Gene||OMIM
+ReferenceClinvarAssertion.MeasureSet.AttributeSet.Attribute  :::  NC_000012.11:g.[57906083C>T;57894189G>A]||NM_000751.2:c.1319A>G||NG_034077.1:g.[29348C>T;17454G>A]
+ReferenceClinvarAssertion.ClinicalSignificance.DateLastEvaluated  :::  2000-09-01||2000-09-01||2014-05-15
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.Measure.XRef.DB  :::  Centre for Mendelian Genomics,University Medical Centre Ljubljana||Sequence Ontology||RefSeq
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.mrelationship.sequenceL.Assembly  :::  GRCh38||GRCh38||GRCh37
+ReferenceClinvarAssertion.DateLastUpdated  :::  2016-02-17||2016-02-17||2016-04-10
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.AttributeSet.Attribute  :::  NC_000018.9:g.(?_77733783)_(77733853_77737598)del||NM_000751.2:c.1319A>G||NM_000751.2:c.73G>T
+ReferenceClinvarAssertion.ID  :::  1044156||75987||197066
+ReferenceClinvarAssertion.ObservedInSet.Sample.NumberTested  :::  40||4||2
+ReferenceClinvarAssertion.ObservedInSet.ObservedData.ID  :::  20110459||20110459||20289144
+ReferenceClinvarAssertion.ObservedInSet.Method.Description  :::  DNA extracted from blood was used to perform targeted gene capture using a custom capture kit. The libraries were sequenced to mean >80-100X coverage on Illumina sequencing platform. The sequences obtained were aligned to human reference genome using BWA program and analyzed using Picard and GATK-Lite toolkit to identify variants in the targeted genes relevant to clinical indication.
+Both variants were confirmed by Bidirectional Sanger sequencing.||Sanger sequencing||Exome sequencing; mRNA and protein expression in fibroblasts
+ReferenceClinvarAssertion.MeasureSet.XRef.ID  :::  156560.0007||156560.0007||156560.0007
+ReferenceClinvarAssertion.MeasureSet.Measure.Measurerelationship.Comment  :::  This gene is cited in the ACMG recommendations of 2016 (PubMed 27854360) for reporting incidental findings in exons.||This gene is cited in the ACMG recommendations of 2016 (PubMed 27854360) for reporting incidental findings in exons.||This gene is cited in the ACMG recommendations of 2013 (PubMed 23788249) for reporting incidental findings in exons.
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.mrelationship.sequenceL.Chr  :::  12||2||2
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.mrelationship.sequenceL.Accession  :::  NW_003315961.1||NC_000002.12||NC_000002.11
+ReferenceClinvarAssertion.MeasureSet.Measure.sqL.referenceAllele  :::  TCCCAGACCATC||A||A
+ReferenceClinvarAssertion.ObservedInSet.Method.MethodType  :::  clinical testing||clinical testing||research
+ReferenceClinvarAssertion.MeasureSet.XRef.DB  :::  OMIM||OMIM||OMIM
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.mrelationship.sequenceL.Strand  :::  ||+||+
+ReferenceClinvarAssertion.ObservedInSet.Sample.AffectedStatus  :::  not provided||yes||yes
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.Measure.sequenceLocation.alternateAllele  :::  CCTGGCCCGCCCTGGCCCGC||G||G
+ReferenceClinvarAssertion.ClinicalSignificance.ReviewStatus  :::  criteria provided, multiple submitters, no conflicts||no assertion criteria provided||criteria provided, single submitter
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.XRef.ID  :::  HGNC:13478||1144||100720
+ReferenceClinvarAssertion.MeasureSet.Measure.sqL.positionVCF  :::  232534290||232534290||233399000
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.Measure.sequenceLocation.alternateAlleleVCF  :::  TCCACAGTTCCGTCAGTTC||G||G
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.Measure.sequenceLocation.display_start  :::  232534290||232534290||233399000
+ReferenceClinvarAssertion.MeasureSet.Measure.ID  :::  166333||166333||166443
+ReferenceClinvarAssertion.MeasureSet.Measure.sqL.AssemblyStatus  :::  previous||current||previous
+ReferenceClinvarAssertion.GenotypeSet.MeasureSet.Measure.sequenceLocation.start  :::  232534290||232534290||233399000

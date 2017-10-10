@@ -438,8 +438,8 @@ public class XMLTextMining {
                                                             System.out.println("|    |    |    |    |    |    |-- ID " + attl.getTextContent());//  + att.getTextContent());
                                                        }
                                                        if (attl.getNodeName().equals("DB")) {
-                                         Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.GenotypeSet.MeasureSet.Measure.XRef.DB", attl.getTextContent());
-                                         iter.add(t2);
+                                                            Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.GenotypeSet.MeasureSet.Measure.XRef.DB", attl.getTextContent());
+                                                            iter.add(t2);
                                                             System.out.println("|    |    |    |    |    |    |-- DB " + attl.getTextContent());//  + att.getTextContent());
                                                        }
                                                     }
@@ -456,7 +456,7 @@ public class XMLTextMining {
                                             System.out.println("|    |    |    |    |-- MeasureRelationship ");//  + ssubnode.getTextContent());
                                             NamedNodeMap mratt = sssubnode.getAttributes();
                                             if (mratt.item(0).getNodeName().equals("Type")) {
-                                         Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.GenotypeSet.MeasureSet.AttributeSet.Type", mratt.item(0).getTextContent());
+                                         Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.mrelationship.Type", mratt.item(0).getTextContent());
                                          iter.add(t2);
                                                 System.out.println("|    |    |    |    |    |-- Type: " + mratt.item(0).getTextContent() );//  + ssubnode.getTextContent());
                                             }
@@ -473,6 +473,8 @@ public class XMLTextMining {
                                                      for (int h=0; h<attlistname.getLength(); h++) {
                                                         Node attname = attlistname.item(h);
                                                         if (attname.getNodeName().equals("ElementValue")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.mrelationship.Name.ElementValue", attname.getTextContent());
+                                                     iter.add(t2);
                                                             System.out.println("|    |    |    |    |    |    |-- ElementValue "  + attname.getTextContent());
                                                          }
 
@@ -485,6 +487,8 @@ public class XMLTextMining {
                                                      for (int h=0; h<attlistname.getLength(); h++) {
                                                         Node attname = attlistname.item(h);
                                                         if (attname.getNodeName().equals("ElementValue")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.mrelationship.Symbol.ElementValue", attname.getTextContent());
+                                                     iter.add(t2);
                                                             System.out.println("|    |    |    |    |    |    |-- ElementValue "  + attname.getTextContent());
                                                          }
 
@@ -498,48 +502,78 @@ public class XMLTextMining {
                                              	      for (int h = 0; h < sq.getLength(); h++) {
                                                   	  Node ttt = sq.item(h);
                                                   	  if (ttt.getNodeName().equals("Assembly")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.mrelationship.sequenceL.Assembly", ttt.getTextContent());
+                                                     iter.add(t2);
                                                             System.out.println("|    |    |    |    |    |    |-- Assembly: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                           }   
                                                           if (ttt.getNodeName().equals("AssemblyAccessionVersion")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.mrelationship.sequenceL.AssemblyAccess", ttt.getTextContent());
+                                                     iter.add(t2);
                                                              System.out.println("|    |    |    |    |    |    |-- AssemblyAccessVersion: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                           }   
                                                           if (ttt.getNodeName().equals("AssemblyStatus")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.mrelationship.sequenceL.AssemblyStatus", ttt.getTextContent());
+                                                     iter.add(t2);
                                                              System.out.println("|    |    |    |    |    |    |-- AssemblyStatus: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                           }   
                                                           if (ttt.getNodeName().equals("Chr")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.mrelationship.sequenceL.Chr", ttt.getTextContent());
+                                                     iter.add(t2);
                                                              System.out.println("|    |    |    |    |    |    |-- Chr: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                           }   
                                                           if (ttt.getNodeName().equals("Accession")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.mrelationship.sequenceL.Accession", ttt.getTextContent());
+                                                     iter.add(t2);
                                                              System.out.println("|    |    |    |    |    |    |-- Accession: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                           }   
                                                           if (ttt.getNodeName().equals("start")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.mrelationship.sequenceL.start", ttt.getTextContent());
+                                                     iter.add(t2);
                                                               System.out.println("|    |    |    |    |    |    |-- start: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                           }   
                                                           if (ttt.getNodeName().equals("stop")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.mrelationship.sequenceL.stop", ttt.getTextContent());
+                                                     iter.add(t2);
                                                               System.out.println("|    |    |    |    |    |    |-- stop: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                           }   
                                                           if (ttt.getNodeName().equals("display_start")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.mrelationship.sequenceL.display_start", ttt.getTextContent());
+                                                     iter.add(t2);
                                                               System.out.println("|    |    |    |    |    |    |-- display_start: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                           }   
                                                           if (ttt.getNodeName().equals("variantLength")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.mrelationship.sequenceL.variantLength", ttt.getTextContent());
+                                                     iter.add(t2);
                                                               System.out.println("|    |    |    |    |    |    |-- variantLength: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                           }   
                                                           if (ttt.getNodeName().equals("referenceAllele")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.mrelationship.sequenceL.referenceAllele", ttt.getTextContent());
+                                                     iter.add(t2);
                                                               System.out.println("|    |    |    |    |    |    |-- referenceAllele: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                           }   
                                                           if (ttt.getNodeName().equals("alternateAllele")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.mrelationship.sequenceL.alternateAllele", ttt.getTextContent());
+                                                     iter.add(t2);
                                                               System.out.println("|    |    |    |    |    |    |-- alternateAllele: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                           }   
                                                           if (ttt.getNodeName().equals("positionVCF")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.mrelationship.sequenceL.positionVCFAllele", ttt.getTextContent());
+                                                     iter.add(t2);
                                                               System.out.println("|    |    |    |    |    |    |-- positionVCF: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                           }   
                                                           if (ttt.getNodeName().equals("referenceAlleVCF")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.mrelationship.sequenceL.referenceVCFAllele", ttt.getTextContent());
+                                                     iter.add(t2);
                                                               System.out.println("|    |    |    |    |    |    |-- referenceAlleleVCF: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                           }   
                                                           if (ttt.getNodeName().equals("alternateAlleleVCF")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.mrelationship.sequenceL.alternateFAlleleVCF", ttt.getTextContent());
+                                                     iter.add(t2);
                                                               System.out.println("|    |    |    |    |    |    |-- alternateAlleleVCF: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                           }   
                                                           if (ttt.getNodeName().equals("Strand")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.mrelationship.sequenceL.Strand", ttt.getTextContent());
+                                                     iter.add(t2);
                                                               System.out.println("|    |    |    |    |    |    |-- Strand: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                           }   
                                                       }   
@@ -550,9 +584,13 @@ public class XMLTextMining {
                                                     for (int h = 0; h < mattsa.getLength(); h++) {
                                                        Node attl= mattsa.item(h);
                                                        if (attl.getNodeName().equals("ID")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.XRef.ID", attl.getTextContent());
+                                                     iter.add(t2);
                                                             System.out.println("|    |    |    |    |    |    |-- ID " + attl.getTextContent());//  + att.getTextContent());
                                                        }
                                                        if (attl.getNodeName().equals("DB")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.GenotypeSet.MeasureSet.measure.XRef.BD", attl.getTextContent());
+                                                     iter.add(t2);
                                                             System.out.println("|    |    |    |    |    |    |-- DB " + attl.getTextContent());//  + att.getTextContent());
                                                        }
                                                     }
@@ -583,9 +621,13 @@ public class XMLTextMining {
 
                      NamedNodeMap refatt = ref_MeasureSet.getAttributes();
                       if(refatt.item(1).getNodeName().equals("ID")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.ID", refatt.item(1).getTextContent());
+                                                     iter.add(t2);
                            System.out.println("|    |    |-- ID: " + refatt.item(1).getTextContent());
                      }
                      if(refatt.item(0).getNodeName().equals("Type")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Type", refatt.item(0).getTextContent());
+                                                     iter.add(t2);
                            System.out.println("|    |    |-- Type: " + refatt.item(0).getTextContent());
                      }
 
@@ -606,6 +648,8 @@ public class XMLTextMining {
                               for (int m=0; m<attlistn.getLength(); m++) {
                                    Node name = attlistn.item(m);
                                    if (name.getNodeName().equals("ElementValue")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Name.ElementValue", name.getTextContent());
+                                                     iter.add(t2);
                                         System.out.println("|    |    |    |    |-- ElementValue "  + name.getTextContent());
                                    }
                                    if (name.getNodeName().equals("XRef")) {
@@ -613,9 +657,13 @@ public class XMLTextMining {
                                         NamedNodeMap natt = name.getAttributes();
                                         for (int h = 0 ; h< natt.getLength(); h++) {
                                              if (natt.item(h).getNodeName().equals("ID")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.XRef.ID", natt.item(h).getTextContent());
+                                                     iter.add(t2);
                                                  System.out.println("|    |    |    |    |    |-- ID " + natt.item(h).getTextContent());//  + name.getTextContent());
                                              }
                                              if (natt.item(h).getNodeName().equals("DB")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.XRef.DB", natt.item(h).getTextContent());
+                                                     iter.add(t2);
                                                  System.out.println("|    |    |    |    |    |-- DB " + natt.item(h).getTextContent());//  + name.getTextContent());
                                              }
                                         }
@@ -631,6 +679,8 @@ public class XMLTextMining {
                               for (int m=0; m<attlistn.getLength(); m++) {
                                    Node name = attlistn.item(m);
                                    if (name.getNodeName().equals("Attribute")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.AttributeSet.Attribute", name.getTextContent());
+                                                     iter.add(t2);
                                         System.out.println("|    |    |    |    |-- Attribute "  + name.getTextContent());
                                    }   
                                    if (name.getNodeName().equals("XRef")) {
@@ -638,9 +688,13 @@ public class XMLTextMining {
                                         NamedNodeMap natt = name.getAttributes();
                                         for (int h = 0 ; h< natt.getLength(); h++) {
                                              if (natt.item(h).getNodeName().equals("ID")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.AttributeSet.XRef.ID", natt.item(h).getTextContent());
+                                                     iter.add(t2);
                                                  System.out.println("|    |    |    |    |    |-- ID " + natt.item(h).getTextContent());//  + name.getTextContent());
                                              }   
                                              if (natt.item(h).getNodeName().equals("DB")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.AttributeSet.XRef.DB", natt.item(h).getTextContent());
+                                                     iter.add(t2);
                                                  System.out.println("|    |    |    |    |    |-- DB " + natt.item(h).getTextContent());//  + name.getTextContent());
                                              }   
                                         }   
@@ -661,9 +715,13 @@ public class XMLTextMining {
                                       for (int k = 0; k < matts.getLength(); k ++ ) {
                                          Node attms = matts.item(k);
                                          if (attms.getNodeName().equals("ID")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.ID", attms.getTextContent());
+                                                     iter.add(t2);
                                              System.out.println("|    |    |    |    |-- ID " + attms.getTextContent());
                                          }
                                          if (attms.getNodeName().equals("Type")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.Type", attms.getTextContent());
+                                                     iter.add(t2);
                                              System.out.println("|    |    |    |    |-- Type " + attms.getTextContent());
                                          }
                                       }
@@ -682,6 +740,8 @@ public class XMLTextMining {
                                              for (int m=0; m<attlist.getLength(); m++) {
                                                 Node attms = attlist.item(m);
                                                 if (attms.getNodeName().equals("ElementValue")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.Name.ElementValue", attms.getTextContent());
+                                                     iter.add(t2);
                                                     System.out.println("|    |    |    |    |    |-- ElementValue "  + attms.getTextContent());
                                                 }
 
@@ -693,16 +753,22 @@ public class XMLTextMining {
                                          }
                                          // ref_mset_measure_CytogeneticLocation
                                          if (sssubnode.getNodeName().equals("CytogeneticLocation")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.CytogeneticLocation", sssubnode.getTextContent());
+                                                     iter.add(t2);
                                             System.out.println("|    |    |    |    |-- CytogeneticLocation " + sssubnode.getTextContent());
                                          }
 
                                          // ref_mset_measure_comment
                                          if (sssubnode.getNodeName().equals("Comment")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.Comment", sssubnode.getTextContent());
+                                                     iter.add(t2);
                                             System.out.println("|    |    |    |    |-- Comment " + sssubnode.getTextContent());
                                          }
 
                                          // ref_mset_measure_source
                                          if (sssubnode.getNodeName().equals("Source")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.Source", sssubnode.getTextContent());
+                                                     iter.add(t2);
                                             System.out.println("|    |    |    |    |-- Source " + sssubnode.getTextContent());
                                          }
 
@@ -713,48 +779,78 @@ public class XMLTextMining {
                                              for (int m = 0; m < sq.getLength(); m++) {
                                                   Node attms = sq.item(m);
                                                   if (attms.getNodeName().equals("Assembly")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.sqL.Assembly", attms.getTextContent());
+                                                     iter.add(t2);
                                                       System.out.println("|    |    |    |    |    |-- Assembly: " + attms.getTextContent());// + sssubnode.getTextContent());
                                                   }
                                                   if (attms.getNodeName().equals("AssemblyAccessionVersion")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.sqL.AssemblyAccessVersion", attms.getTextContent());
+                                                     iter.add(t2);
                                                       System.out.println("|    |    |    |    |    |-- AssemblyAccessVersion: " + attms.getTextContent());// + sssubnode.getTextContent());
                                                   }
                                                   if (attms.getNodeName().equals("AssemblyStatus")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.sqL.AssemblyStatus", attms.getTextContent());
+                                                     iter.add(t2);
                                                       System.out.println("|    |    |    |    |    |-- AssemblyStatus: " + attms.getTextContent());// + sssubnode.getTextContent());
                                                   }
                                                   if (attms.getNodeName().equals("Chr")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.sqL.Chr", attms.getTextContent());
+                                                     iter.add(t2);
                                                       System.out.println("|    |    |    |    |    |-- Chr: " + attms.getTextContent());// + sssubnode.getTextContent());
                                                   }
                                                   if (attms.getNodeName().equals("Accession")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.sqL.Accession", attms.getTextContent());
+                                                     iter.add(t2);
                                                       System.out.println("|    |    |    |    |    |-- Accession: " + attms.getTextContent());// + sssubnode.getTextContent());
                                                   }
                                                   if (attms.getNodeName().equals("start")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.sqL.start", attms.getTextContent());
+                                                     iter.add(t2);
                                                       System.out.println("|    |    |    |    |    |-- start: " + attms.getTextContent());// + sssubnode.getTextContent());
                                                   }
                                                   if (attms.getNodeName().equals("stop")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.sqL.stop", attms.getTextContent());
+                                                     iter.add(t2);
                                                       System.out.println("|    |    |    |    |    |-- stop: " + attms.getTextContent());// + sssubnode.getTextContent());
                                                   }
                                                   if (attms.getNodeName().equals("display_start")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.sqL.display_start", attms.getTextContent());
+                                                     iter.add(t2);
                                                       System.out.println("|    |    |    |    |    |-- display_start: " + attms.getTextContent());// + sssubnode.getTextContent());
                                                   }
                                                   if (attms.getNodeName().equals("variantLength")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.sqL.variantLength", attms.getTextContent());
+                                                     iter.add(t2);
                                                       System.out.println("|    |    |    |    |    |-- variantLength: " + attms.getTextContent());// + sssubnode.getTextContent());
                                                   }
                                                   if (attms.getNodeName().equals("referenceAllele")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.sqL.referenceAllele", attms.getTextContent());
+                                                     iter.add(t2);
                                                       System.out.println("|    |    |    |    |    |-- referenceAllele: " + attms.getTextContent());// + sssubnode.getTextContent());
                                                   }
                                                   if (attms.getNodeName().equals("alternateAllele")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.sqL.alternateAllele", attms.getTextContent());
+                                                     iter.add(t2);
                                                       System.out.println("|    |    |    |    |    |-- alternateAllele: " + attms.getTextContent());// + sssubnode.getTextContent());
                                                   }
                                                   if (attms.getNodeName().equals("positionVCF")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.sqL.positionVCF", attms.getTextContent());
+                                                     iter.add(t2);
                                                       System.out.println("|    |    |    |    |    |-- positionVCF: " + attms.getTextContent());// + sssubnode.getTextContent());
                                                   }
-                                                  if (attms.getNodeName().equals("referenceAlleVCF")) {
+                                                  if (attms.getNodeName().equals("referenceAlleleVCF")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.sqL.referenceAlleleVCF", attms.getTextContent());
+                                                     iter.add(t2);
                                                       System.out.println("|    |    |    |    |    |-- referenceAlleleVCF: " + attms.getTextContent());// + sssubnode.getTextContent());
                                                   }
                                                   if (attms.getNodeName().equals("alternateAlleleVCF")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.sqL.alternateAlleleVCF", attms.getTextContent());
+                                                     iter.add(t2);
                                                       System.out.println("|    |    |    |    |    |-- alternateAlleleVCF: " + attms.getTextContent());// + sssubnode.getTextContent());
                                                   }
                                                   if (attms.getNodeName().equals("Strand")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.sqL.Strand", attms.getTextContent());
+                                                     iter.add(t2);
                                                       System.out.println("|    |    |    |    |    |-- Strand: " + attms.getTextContent());// + sssubnode.getTextContent());
                                                   }
                                               }
@@ -767,9 +863,13 @@ public class XMLTextMining {
                                             for (int m=0; m<attlist.getLength(); m++) {
                                                 Node attms = attlist.item(m);
                                                 if (attms.getNodeName().equals("Attribute")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.AttributeSet.Attribute", attms.getTextContent());
+                                                     iter.add(t2);
                                                     System.out.println("|    |    |    |    |    |-- Attribute "  + attms.getTextContent());
                                                 }
                                                 if (attms.getNodeName().equals("Comment")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.AttributeSet.comment", attms.getTextContent());
+                                                     iter.add(t2);
                                                     System.out.println("|    |    |    |    |    |-- Comment "  + attms.getTextContent());
                                                 }
                                                 
@@ -779,15 +879,23 @@ public class XMLTextMining {
                                                     for (int h=0; h<attlistn.getLength(); h++) {
                                                       Node name = attlistn.item(h);
                                                       if (name.getNodeName().equals("Abbrev")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.AttributeSet.Citation.Abbrev", name.getTextContent());
+                                                     iter.add(t2);
                                                          System.out.println("|    |    |    |    |-- Abbrev "  + name.getTextContent());
                                                       }
                                                       if (name.getNodeName().equals("ID")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.AttributeSet.Citation.ID", name.getTextContent());
+                                                     iter.add(t2);
                                                          System.out.println("|    |    |    |    |-- ID "  + name.getTextContent());
                                                       }
                                                       if (name.getNodeName().equals("CitationText")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.AttributeSet.Citation.CitationText", name.getTextContent());
+                                                     iter.add(t2);
                                                           System.out.println("|    |    |    |    |-- CitationText "  + name.getTextContent());
                                                       }
                                                       if (name.getNodeName().equals("URL")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.AttributeSet.Citation.URL", name.getTextContent());
+                                                     iter.add(t2);
                                                           System.out.println("|    |    |    |    |-- URL "  + name.getTextContent());
                                                       }
 
@@ -801,9 +909,13 @@ public class XMLTextMining {
                                                     for (int h = 0; h < mattsa.getLength(); h++) {
                                                        Node attl= mattsa.item(h);
                                                        if (attl.getNodeName().equals("ID")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.AttributeSet.XRef.ID", attl.getTextContent());
+                                                     iter.add(t2);
                                                             System.out.println("|    |    |    |    |    |    |-- ID " + attl.getTextContent());//  + att.getTextContent());
                                                        }
                                                        if (attl.getNodeName().equals("DB")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.AttributeSet.XRef.DB", attl.getTextContent());
+                                                     iter.add(t2);
                                                             System.out.println("|    |    |    |    |    |    |-- DB " + attl.getTextContent());//  + att.getTextContent());
                                                        }
                                                     }
@@ -818,6 +930,8 @@ public class XMLTextMining {
                                             System.out.println("|    |    |    |    |-- MeasureRelationship ");//  + ssubnode.getTextContent());
                                             NamedNodeMap mratt = sssubnode.getAttributes();
                                             if (mratt.item(0).getNodeName().equals("Type")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.Measurerelationship.Type", mratt.item(0).getTextContent());
+                                                     iter.add(t2);
                                                 System.out.println("|    |    |    |    |    |-- Type: " + mratt.item(0).getTextContent() );//  + ssubnode.getTextContent());
                                             }
 
@@ -833,6 +947,8 @@ public class XMLTextMining {
                                                      for (int h=0; h<attlistname.getLength(); h++) {
                                                         Node attname = attlistname.item(h);
                                                         if (attname.getNodeName().equals("ElementValue")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.Measurerelationship.Name.ElementValue", attname.getTextContent());
+                                                     iter.add(t2);
                                                             System.out.println("|    |    |    |    |    |    |-- ElementValue "  + attname.getTextContent());
                                                          }
 
@@ -845,12 +961,16 @@ public class XMLTextMining {
                                                      for (int h=0; h<attlistname.getLength(); h++) {
                                                         Node attname = attlistname.item(h);
                                                         if (attname.getNodeName().equals("ElementValue")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.Measurerelationship.Symbol.ElementValue", attname.getTextContent());
+                                                     iter.add(t2);
                                                             System.out.println("|    |    |    |    |    |    |-- ElementValue "  + attname.getTextContent());
                                                          }
 
                                                      }
                                                  }
                                                  if (attms.getNodeName().equals("Comment")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.Measurerelationship.Comment", attms.getTextContent());
+                                                     iter.add(t2);
                                                      System.out.println("|    |    |    |    |    |-- Comment ");//  + attms.getTextContent());
                                                  }
 
@@ -860,48 +980,81 @@ public class XMLTextMining {
                                                       for (int h = 0; h < sq.getLength(); h++) {
                                                           Node ttt = sq.item(h);
                                                           if (ttt.getNodeName().equals("Assembly")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.Measurerelationship.sql.Assembly", ttt.getTextContent());
+                                                     iter.add(t2);
                                                             System.out.println("|    |    |    |    |    |    |-- Assembly: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                           }
                                                           if (ttt.getNodeName().equals("AssemblyAccessionVersion")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.Measurerelationship.sql.AssemblyAccessVersion", ttt.getTextContent());
+                                                     iter.add(t2);
                                                              System.out.println("|    |    |    |    |    |    |-- AssemblyAccessVersion: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                           }
                                                           if (ttt.getNodeName().equals("AssemblyStatus")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.Measurerelationship.sql.AssemblyStatus", ttt.getTextContent());
+                                                     iter.add(t2);
                                                              System.out.println("|    |    |    |    |    |    |-- AssemblyStatus: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                           }
                                                           if (ttt.getNodeName().equals("Chr")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.Measurerelationship.sql.Chr", ttt.getTextContent());
+                                                     iter.add(t2);
                                                              System.out.println("|    |    |    |    |    |    |-- Chr: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                           }
                                                           if (ttt.getNodeName().equals("Accession")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.Measurerelationship.sql.Accession", ttt.getTextContent());
+                                                     iter.add(t2);
                                                              System.out.println("|    |    |    |    |    |    |-- Accession: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                           }
                                                           if (ttt.getNodeName().equals("start")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.Measurerelationship.sql.start", ttt.getTextContent());
+                                                     iter.add(t2);
+                                                             System.out.println("|    |    |    |    |    |    |-- Accession: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                               System.out.println("|    |    |    |    |    |    |-- start: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                           }
                                                           if (ttt.getNodeName().equals("stop")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.Measurerelationship.sql.stop", ttt.getTextContent());
+                                                     iter.add(t2);
+                                                             System.out.println("|    |    |    |    |    |    |-- Accession: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                               System.out.println("|    |    |    |    |    |    |-- stop: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                           }
                                                           if (ttt.getNodeName().equals("display_start")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.Measurerelationship.sql.display_start", ttt.getTextContent());
+                                                     iter.add(t2);
+                                                             System.out.println("|    |    |    |    |    |    |-- Accession: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                               System.out.println("|    |    |    |    |    |    |-- display_start: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                           }
                                                           if (ttt.getNodeName().equals("variantLength")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.Measurerelationship.sql.variantLength", ttt.getTextContent());
+                                                     iter.add(t2);
                                                               System.out.println("|    |    |    |    |    |    |-- variantLength: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                           }
                                                           if (ttt.getNodeName().equals("referenceAllele")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.Measurerelationship.sql.referenceAllele", ttt.getTextContent());
+                                                     iter.add(t2);
                                                               System.out.println("|    |    |    |    |    |    |-- referenceAllele: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                           }
                                                           if (ttt.getNodeName().equals("alternateAllele")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.Measurerelationship.sql.alternateAllele", ttt.getTextContent());
+                                                     iter.add(t2);
                                                               System.out.println("|    |    |    |    |    |    |-- alternateAllele: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                           }
                                                           if (ttt.getNodeName().equals("positionVCF")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.Measurerelationship.sql.positionVCF", ttt.getTextContent());
+                                                     iter.add(t2);
                                                               System.out.println("|    |    |    |    |    |    |-- positionVCF: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                           }
                                                           if (ttt.getNodeName().equals("referenceAlleVCF")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.Measurerelationship.sql.referenceAlleleVCF", ttt.getTextContent());
+                                                     iter.add(t2);
                                                               System.out.println("|    |    |    |    |    |    |-- referenceAlleleVCF: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                           }
                                                           if (ttt.getNodeName().equals("alternateAlleleVCF")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.Measurerelationship.sql.alternateAlleleVCF", ttt.getTextContent());
+                                                     iter.add(t2);
                                                               System.out.println("|    |    |    |    |    |    |-- alternateAlleleVCF: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                           }
                                                           if (ttt.getNodeName().equals("Strand")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.Measurerelationship.sql.Strand", ttt.getTextContent());
+                                                     iter.add(t2);
                                                               System.out.println("|    |    |    |    |    |    |-- Strand: " + ttt.getTextContent());// + sssubnode.getTextContent());
                                                           }
                                                       }
@@ -914,9 +1067,13 @@ public class XMLTextMining {
                                                     for (int h = 0; h < mattsa.getLength(); h++) {
                                                        Node attl= mattsa.item(h);
                                                        if (attl.getNodeName().equals("ID")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.Measurerelationship.XRef.ID", attl.getTextContent());
+                                                     iter.add(t2);
                                                             System.out.println("|    |    |    |    |    |    |-- ID " + attl.getTextContent());//  + att.getTextContent());
                                                        }
                                                        if (attl.getNodeName().equals("DB")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Measure.Measurerelationship.XRef.DB", attl.getTextContent());
+                                                     iter.add(t2);
                                                             System.out.println("|    |    |    |    |    |    |-- DB " + attl.getTextContent());//  + att.getTextContent());
                                                        }
                                                     }
@@ -941,6 +1098,8 @@ public class XMLTextMining {
                                              for (int m=0; m<attlists.getLength(); m++) {
                                                 Node name = attlists.item(m);
                                                 if (name.getNodeName().equals("ElementValue")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.Symbol.ElementValue", name.getTextContent());
+                                                     iter.add(t2);
                                                     System.out.println("|    |    |    |-- ElementValue "  + name.getTextContent());
                                                 }
                                              }
@@ -952,9 +1111,13 @@ public class XMLTextMining {
                               for (int h = 0; h < mattsa.getLength(); h++) {
                                    Node attl= mattsa.item(h);
                                    if (attl.getNodeName().equals("ID")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.XRef.ID", attl.getTextContent());
+                                                     iter.add(t2);
                                       System.out.println("|    |    |    |-- ID " + attl.getTextContent());//  + att.getTextContent());
                                    }
                                    if (attl.getNodeName().equals("DB")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.MeasureSet.XRef.DB", attl.getTextContent());
+                                                     iter.add(t2);
                                       System.out.println("|    |    |    |-- DB " + attl.getTextContent());//  + att.getTextContent());
                                    }
                                }
@@ -980,18 +1143,28 @@ public class XMLTextMining {
                                for (int k=0; k<attlist.getLength(); k++) {
                                       Node att = attlist.item(k);
                                       if (att.getNodeName().equals("MethodType")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.ObservedInSet.Method.MethodType", att.getTextContent());
+                                                     iter.add(t2);
                                                System.out.println("|    |    |    |-- MethodType "  + att.getTextContent());
                                        }
                                       if (att.getNodeName().equals("NamePlatform")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.ObservedInSet.Method.NamePlatform", att.getTextContent());
+                                                     iter.add(t2);
                                                System.out.println("|    |    |    |-- NamePlatform "  + att.getTextContent());
                                        }
                                       if (att.getNodeName().equals("Purpose")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.ObservedInSet.Method.Purpose", att.getTextContent());
+                                                     iter.add(t2);
                                                System.out.println("|    |    |    |-- Purpose "  + att.getTextContent());
                                        }
                                       if (att.getNodeName().equals("ResultType")) {
                                                System.out.println("|    |    |    |-- ResultType "  + att.getTextContent());
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.ObservedInSet.Method.ResultType", att.getTextContent());
+                                                     iter.add(t2);
                                        }
                                       if (att.getNodeName().equals("Description")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.ObservedInSet.Method.Description", att.getTextContent());
+                                                     iter.add(t2);
                                                System.out.println("|    |    |    |-- Description "  + att.getTextContent());
                                        }
                                 }
@@ -1002,28 +1175,44 @@ public class XMLTextMining {
                                NodeList attlist = subnode.getChildNodes();
                                for (int k=0; k<attlist.getLength(); k++) {
                                       Node att = attlist.item(k);
-                                      if (att.getNodeName().equals("AffectedStatuse")) {
+                                      if (att.getNodeName().equals("AffectedStatus")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.ObservedInSet.Sample.AffectedStatus", att.getTextContent());
+                                                     iter.add(t2);
                                                System.out.println("|    |    |    |-- AffectedStatus "  + att.getTextContent());
                                        }
                                       if (att.getNodeName().equals("Ethnicity")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.ObservedInSet.Sample.Ethnicity", att.getTextContent());
+                                                     iter.add(t2);
                                                System.out.println("|    |    |    |-- Ethnicity "  + att.getTextContent());
                                        }
                                       if (att.getNodeName().equals("FamilyData")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.ObservedInSet.Sample.FamilyData", att.getTextContent());
+                                                     iter.add(t2);
                                                System.out.println("|    |    |    |-- FamilyData "  + att.getTextContent());
                                        }
                                       if (att.getNodeName().equals("NumberFemales")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.ObservedInSet.Sample.NumberFemales", att.getTextContent());
+                                                     iter.add(t2);
                                                System.out.println("|    |    |    |-- NumberFemales "  + att.getTextContent());
                                        }
-                                      if (att.getNodeName().equals("NumberMalesa")) {
+                                      if (att.getNodeName().equals("NumberMales")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.ObservedInSet.Sample.NumberMales", att.getTextContent());
+                                                     iter.add(t2);
                                                System.out.println("|    |    |    |-- NumberMales "  + att.getTextContent());
                                        }
                                       if (att.getNodeName().equals("NumberTested")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.ObservedInSet.Sample.NumberTested", att.getTextContent());
+                                                     iter.add(t2);
                                                System.out.println("|    |    |    |-- NumberTested "  + att.getTextContent());
                                        }
                                       if (att.getNodeName().equals("Origin")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.ObservedInSet.Sample.Origin", att.getTextContent());
+                                                     iter.add(t2);
                                                System.out.println("|    |    |    |-- Origin "  + att.getTextContent());
                                        }
                                       if (att.getNodeName().equals("Species")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.ObservedInSet.Sample.Species", att.getTextContent());
+                                                     iter.add(t2);
                                                System.out.println("|    |    |    |-- Species "  + att.getTextContent());
                                       }
                                }
@@ -1034,9 +1223,13 @@ public class XMLTextMining {
                                System.out.println("|    |    |-- ObservedData: ");// + subnode.getTextContent());
                                NamedNodeMap tstraitatts = subnode.getAttributes();
                                if(tstraitatts.item(0).getNodeName().equals("ID")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.ObservedInSet.ObservedData.ID", tstraitatts.item(0).getTextContent());
+                                                     iter.add(t2);
                                       System.out.println("|    |    |    |-- ID: " + tstraitatts.item(0).getTextContent());
                                }
                                if(tstraitatts.item(1).getNodeName().equals("Type")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.ObservedInSet.ObservedData.Type", tstraitatts.item(1).getTextContent());
+                                                     iter.add(t2);
                                    System.out.println("|    |    |-- Type: " + tstraitatts.item(1).getTextContent());
                                }
 
@@ -1047,6 +1240,8 @@ public class XMLTextMining {
                                       Node att = attlist.item(j);
 
                                       if (att.getNodeName().equals("Attribute")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.ObservedInSet.ObservedData.Attribute", att.getTextContent());
+                                                     iter.add(t2);
                                           System.out.println("|    |    |    |-- Attribute: " + att.getTextContent());
                                       }
 
@@ -1056,15 +1251,23 @@ public class XMLTextMining {
                                              for (int m=0; m<attlistn.getLength(); m++) {
                                                 Node name = attlistn.item(m);
                                                 if (name.getNodeName().equals("Abbrev")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.ObservedInSet.ObservedData.Citation.Abbrev", name.getTextContent());
+                                                     iter.add(t2);
                                                     System.out.println("|    |    |    |    |-- Abbrev "  + name.getTextContent());
                                                 }
                                                 if (name.getNodeName().equals("ID")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.ObservedInSet.ObservedData.Citation.ID", name.getTextContent());
+                                                     iter.add(t2);
                                                     System.out.println("|    |    |    |    |-- ID "  + name.getTextContent());
                                                 }
                                                 if (name.getNodeName().equals("CitationText")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.ObservedInSet.ObservedData.Citation.CitationText", name.getTextContent());
+                                                     iter.add(t2);
                                                     System.out.println("|    |    |    |    |-- CitationText "  + name.getTextContent());
                                                 }
                                                 if (name.getNodeName().equals("URL")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.ObservedInSet.ObservedData.Citation.URL", name.getTextContent());
+                                                     iter.add(t2);
                                                     System.out.println("|    |    |    |    |-- URL "  + name.getTextContent());
                                                 }
 
@@ -1083,9 +1286,13 @@ public class XMLTextMining {
                      System.out.println("|    |-- TraitSet:");
                      NamedNodeMap tsatts = ref_TraitSet.getAttributes();
                      if(tsatts.item(1).getNodeName().equals("ID")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.TraitSet.ID", tsatts.item(1).getTextContent());
+                                                     iter.add(t2);
                            System.out.println("|    |    |-- ID: " + tsatts.item(1).getTextContent());
                      }
                      if(tsatts.item(0).getNodeName().equals("Type")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.TraitSet.Type", tsatts.item(0).getTextContent());
+                                                     iter.add(t2);
                            System.out.println("|    |    |-- Type: " + tsatts.item(0).getTextContent());
                      }
 
@@ -1105,6 +1312,8 @@ public class XMLTextMining {
                                for (int k=0; k<attlist.getLength(); k++) {
                                       Node att = attlist.item(k);
                                       if (att.getNodeName().equals("ElementValue")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.TraitSet.Name.ElementValue", att.getTextContent());
+                                                     iter.add(t2);
                                                System.out.println("|    |    |    | -- ElementValue "  + att.getTextContent());
                                        }
                                 }
@@ -1115,9 +1324,13 @@ public class XMLTextMining {
                                System.out.println("|    |    |-- Trait: ");// + subnode.getTextContent());
                                NamedNodeMap tstraitatts = subnode.getAttributes();
                                if(tstraitatts.item(0).getNodeName().equals("ID")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.TraitSet.Trait.ID", tstraitatts.item(0).getTextContent());
+                                                     iter.add(t2);
                                       System.out.println("|    |    |    |-- ID: " + tstraitatts.item(0).getTextContent());
                                }
                                if(tsatts.item(1).getNodeName().equals("Type")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.TraitSet.Trait.Type", tstraitatts.item(1).getTextContent());
+                                                     iter.add(t2);
                                    System.out.println("|    |    |-- Type: " + tstraitatts.item(1).getTextContent());
                                }
 
@@ -1133,6 +1346,8 @@ public class XMLTextMining {
                                              for (int m=0; m<attlistn.getLength(); m++) {
                                                 Node name = attlistn.item(m);
                                                 if (name.getNodeName().equals("ElementValue")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.TraitSet.Trait.Name.ElementValue", name.getTextContent());
+                                                     iter.add(t2);
                                                     System.out.println("|    |    |    |    |-- ElementValue "  + name.getTextContent());
                                                 }
                                                 if (name.getNodeName().equals("XRef")) {
@@ -1140,9 +1355,13 @@ public class XMLTextMining {
                                                      NamedNodeMap natt = name.getAttributes();
                                                      for (int h = 0 ; h< natt.getLength(); h++) {
                                                        if (natt.item(h).getNodeName().equals("ID")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.TraitSet.Trait.Name.XRef.ID", natt.item(h).getTextContent());
+                                                     iter.add(t2);
                                                            System.out.println("|    |    |    |    |    |-- ID " + natt.item(h).getTextContent());//  + name.getTextContent());
                                                        }
                                                        if (natt.item(h).getNodeName().equals("DB")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.TraitSet.Trait.Name.XRef.DB", natt.item(h).getTextContent());
+                                                     iter.add(t2);
                                                            System.out.println("|    |    |    |    |    |-- DB " + natt.item(h).getTextContent());//  + name.getTextContent());
                                                        }
                                                      }
@@ -1156,6 +1375,8 @@ public class XMLTextMining {
                                              for (int m=0; m<attlists.getLength(); m++) {
                                                 Node name = attlists.item(m);
                                                 if (name.getNodeName().equals("ElementValue")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.TraitSet.Trait.Symbol.ElementValue", name.getTextContent());
+                                                     iter.add(t2);
                                                     System.out.println("|    |    |    |    |-- ElementValue "  + name.getTextContent());
                                                 }
                                                 if (name.getNodeName().equals("XRef")) {
@@ -1163,9 +1384,13 @@ public class XMLTextMining {
                                                      NamedNodeMap natt = name.getAttributes();
                                                      for (int h = 0 ; h< natt.getLength(); h++) {
                                                        if (natt.item(h).getNodeName().equals("ID")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.TraitSet.Trait.Symbol.XRef.ID", natt.item(h).getTextContent());
+                                                     iter.add(t2);
                                                            System.out.println("|    |    |    |    |    |-- ID " + natt.item(h).getTextContent());//  + name.getTextContent());
                                                        }
                                                        if (natt.item(h).getNodeName().equals("DB")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.TraitSet.Trait.Symbol.XRef.DB", natt.item(h).getTextContent());
+                                                     iter.add(t2);
                                                            System.out.println("|    |    |    |    |    |-- DB " + natt.item(h).getTextContent());//  + name.getTextContent());
                                                        }
                                                      }
@@ -1179,6 +1404,8 @@ public class XMLTextMining {
                                              for (int m=0; m<attlista.getLength(); m++) {
                                                 Node name = attlista.item(m);
                                                 if (name.getNodeName().equals("Attribute")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.TraitSet.Trait.AttributeSet.Attribute", name.getTextContent());
+                                                     iter.add(t2);
                                                     System.out.println("|    |    |    |    |-- Attribute "  + name.getTextContent());
                                                 }
                                                 if (name.getNodeName().equals("XRef")) {
@@ -1186,9 +1413,13 @@ public class XMLTextMining {
                                                      NamedNodeMap natt = name.getAttributes();
                                                      for (int h = 0 ; h< natt.getLength(); h++) {
                                                        if (natt.item(h).getNodeName().equals("ID")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.TraitSet.Trait.AttributeSet.XRef.ID", natt.item(h).getTextContent());
+                                                     iter.add(t2);
                                                            System.out.println("|    |    |    |    |    |-- ID " + natt.item(h).getTextContent());//  + name.getTextContent());
                                                        }
                                                        if (natt.item(h).getNodeName().equals("DB")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.TraitSet.Trait.AttributeSet.XRef.DB", natt.item(h).getTextContent());
+                                                     iter.add(t2);
                                                            System.out.println("|    |    |    |    |    |-- DB " + natt.item(h).getTextContent());//  + name.getTextContent());
                                                        }
                                                      }
@@ -1203,9 +1434,13 @@ public class XMLTextMining {
                                                     for (int h = 0; h < mattsa.getLength(); h++) {
                                                        Node attl= mattsa.item(h);
                                                        if (attl.getNodeName().equals("ID")) {  
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.TraitSet.Trait.XRef.ID", attl.getTextContent());
+                                                     iter.add(t2);
                                                             System.out.println("|    |    |    |    |-- ID " + attl.getTextContent());//  + att.getTextContent());
                                                        }
                                                        if (attl.getNodeName().equals("DB")) {  
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ReferenceClinvarAssertion.TraitSet.Trait.XRef.DB", attl.getTextContent());
+                                                     iter.add(t2);
                                                             System.out.println("|    |    |    |    |-- DB " + attl.getTextContent());//  + att.getTextContent());
                                                        }
                                                     }
@@ -1229,18 +1464,26 @@ public class XMLTextMining {
                      for (int i = 0; i < attscv.getLength(); i ++ ) {
                           Node att = attscv.item(i);
                           if (att.getNodeName().equals("DateCreated")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ClinvarAssertion.DateCreated", att.getTextContent());
+                                                     iter.add(t2);
                               System.out.println("|    |-- DateCreated " + att.getTextContent());
                           }
                           if (att.getNodeName().equals("DateLastUpdated")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ClinvarAssertion.DateLastUpdated", att.getTextContent());
+                                                     iter.add(t2);
                               System.out.println("|    |-- DateLastUpdated " + att.getTextContent());
                           }
                           if (att.getNodeName().equals("ID")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ClinvarAssertion.ID", att.getTextContent());
+                                                     iter.add(t2);
                               System.out.println("|    |-- ID " + att.getTextContent());
                           }
                      }
 
                      Element e1 = (Element) node1;
                      System.out.println("|    |-- Assertion: " + e1.getElementsByTagName("Assertion").item(0).getTextContent());
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ClinvarAssertion.Assertion", e1.getElementsByTagName("Assertion").item(0).getTextContent());
+                                                     iter.add(t2);
 
                      // CV_attributeSet
                      NodeList attributeSetlist = e1.getElementsByTagName("AttributeSet");
@@ -1251,6 +1494,8 @@ public class XMLTextMining {
                              for (int j=0; j< att.getLength(); j++) {
                                  Node attchild = att.item(j);
                                  if (attchild.getNodeName().equals("Attribute")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ClinvarAssertion.AttributeSet.Attribute", attchild.getTextContent());
+                                                     iter.add(t2);
                                     System.out.println("|    |    |    |-- Attribute " + attchild.getTextContent());
                                  }
                                  if (attchild.getNodeName().equals("Citation")) {
@@ -1259,15 +1504,23 @@ public class XMLTextMining {
                                     for (int m=0; m<attlistn.getLength(); m++) {
                                         Node name = attlistn.item(m);
                                         if (name.getNodeName().equals("Abbrev")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ClinvarAssertion.AttributeSet.Citation.Abbrev", name.getTextContent());
+                                                     iter.add(t2);
                                             System.out.println("|    |    |    |    |-- Abbrev "  + name.getTextContent());
                                         }
                                         if (name.getNodeName().equals("ID")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ClinvarAssertion.AttributeSet.Citation.ID", name.getTextContent());
+                                                     iter.add(t2);
                                             System.out.println("|    |    |    |    |-- ID "  + name.getTextContent());
                                         }
                                         if (name.getNodeName().equals("CitationText")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ClinvarAssertion.AttributeSet.Citation.CitationText", name.getTextContent());
+                                                     iter.add(t2);
                                             System.out.println("|    |    |    |    |-- CitationText "  + name.getTextContent());
                                         }
                                         if (name.getNodeName().equals("URL")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ClinvarAssertion.AttributeSet.Citation.URL", name.getTextContent());
+                                                     iter.add(t2);
                                             System.out.println("|    |    |    |    |-- URL "  + name.getTextContent());
                                         }
 
@@ -1281,9 +1534,13 @@ public class XMLTextMining {
                      Node cvsub = e1.getElementsByTagName("ClinVarSubmissionID").item(0);
                      System.out.println("|    |-- ClinVarSubmissionID ");
                      if (cvsub.getAttributes().item(0).getNodeName().equals("localKey")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ClinvarAssertion.ClinVarSubmissionID.localKey", cvsub.getAttributes().item(0).getTextContent());
+                                                     iter.add(t2);
                           System.out.println("|    |    |-- localKey" + cvsub.getAttributes().item(0).getTextContent()); 
                      }
                      if (cvsub.getAttributes().item(1).getNodeName().equals("submitter")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ClinvarAssertion.ClinVarSubmissionID.submitter", cvsub.getAttributes().item(1).getTextContent());
+                                                     iter.add(t2);
                           System.out.println("|    |    |-- submitter" + cvsub.getAttributes().item(1).getTextContent()); 
                      }
                      
@@ -1294,6 +1551,8 @@ public class XMLTextMining {
                           //System.out.println("ReferenceClinVarAssertion.Citation: null");
                      }
                      String ClinVar_ClinVarAccession = e1.getElementsByTagName("ClinVarAccession").item(0).getTextContent();
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ClinvarAssertion.ClinVarAccession", ClinVar_ClinVarAccession);
+                                                     iter.add(t2);
                      System.out.println("|    |-- ClinVarAccession: "+  ClinVar_ClinVarAccession ); 
 
                      // clinical_significance
@@ -1314,13 +1573,19 @@ public class XMLTextMining {
                      for (int i =0 ; i< listcv.getLength(); i++) {
                           Node subnode = listcv.item(i);
                           if (subnode.getNodeName().equals("Description")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ClinvarAssertion.ClinicalSignificance.Description", subnode.getTextContent());
+                                                     iter.add(t2);
                                System.out.println("|    |    |-- Description: " + subnode.getTextContent());
                           }
                           if (subnode.getNodeName().equals("ReviewStatus")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ClinvarAssertion.ClinicalSignificance.ReviewStatus", subnode.getTextContent());
+                                                     iter.add(t2);
                                System.out.println("|    |    |-- ReviewStatus: " + subnode.getTextContent());
                           }
                           
                           if (subnode.getNodeName().equals("Explanation")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ClinvarAssertion.ClinicalSignificance.Explanation", subnode.getTextContent());
+                                                     iter.add(t2);
                                System.out.println("|    |    |-- Explanation: " + subnode.getTextContent());
                           }
                           
@@ -1340,6 +1605,8 @@ public class XMLTextMining {
                      }   
 
                      if(genoattscv.item(1).getNodeName().equals("Type")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ClinvarAssertion.GenotypeSet.Type",  genoattscv.item(1).getTextContent());
+                                                     iter.add(t2);
                            System.out.println("|    |    |-- Type: " + genoattscv.item(1).getTextContent());
                      }   
  
@@ -1361,6 +1628,8 @@ public class XMLTextMining {
                                for (int k=0; k<attlist.getLength(); k++) {
                                       Node att = attlist.item(k);
                                       if (att.getNodeName().equals("ElementValue")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ClinvarAssertion.GenotypeSet.Name.ElementValue",  att.getTextContent());
+                                                     iter.add(t2);
                                                System.out.println("|    |    |    | -- ElementValue "  + att.getTextContent());
                                        }
                                 }
@@ -1377,9 +1646,13 @@ public class XMLTextMining {
                                for (int j = 0; j < msatts.getLength(); j ++ ) {
                                   Node att = msatts.item(j);
                                   if (att.getNodeName().equals("ID")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ClinvarAssertion.GenotypeSet.MeasureSet.ID",  att.getTextContent());
+                                                     iter.add(t2);
                                       System.out.println("|    |    |    |-- ID " + att.getTextContent());
                                    }
                                   if (att.getNodeName().equals("Type")) {
+                                                     Tuple2<String, String> t2 = new Tuple2<String, String>("ClinvarAssertion.GenotypeSet.MeasureSet.Type",  att.getTextContent());
+                                                     iter.add(t2);
                                       System.out.println("|    |    |    |-- Type " + att.getTextContent());
                                    }
                                 }
@@ -1451,15 +1724,8 @@ public class XMLTextMining {
                                                     System.out.println("|    |    |    |    |    |-- ElementValue "  + att.getTextContent());
                                                 }
 
-                                                if (att.getNodeName().equals("XRef")) {
-                                                     System.out.println("|    |    |    |    |    |-- XRef "  + att.getTextContent());
-                                                }
                                              }
 
-                                         }
-                                         // ref_genotypeset_mset_measure_CytogeneticLocation
-                                         if (sssubnode.getNodeName().equals("CytogeneticLocation")) {
-                                            System.out.println("|    |    |    |    |-- CytogeneticLocation " + sssubnode.getTextContent());
                                          }
 
                                          // ref_genotypeset_mset_measure_sequenceLocation
@@ -1584,71 +1850,6 @@ public class XMLTextMining {
                                                  }
 
 
-                                                 if (att.getNodeName().equals("SequenceLocation")) {
-                                                      System.out.println("|    |    |    |    |    |-- SequenceLocation ");// + sssubnode.getTextContent());
-                                                      NamedNodeMap sq = att.getAttributes();
-                                             	      for (int h = 0; h < sq.getLength(); h++) {
-                                                  	  Node ttt = sq.item(h);
-                                                  	  if (ttt.getNodeName().equals("Assembly")) {
-                                                            System.out.println("|    |    |    |    |    |    |-- Assembly: " + ttt.getTextContent());// + sssubnode.getTextContent());
-                                                          }   
-                                                          if (ttt.getNodeName().equals("AssemblyAccessionVersion")) {
-                                                             System.out.println("|    |    |    |    |    |    |-- AssemblyAccessVersion: " + ttt.getTextContent());// + sssubnode.getTextContent());
-                                                          }   
-                                                          if (ttt.getNodeName().equals("AssemblyStatus")) {
-                                                             System.out.println("|    |    |    |    |    |    |-- AssemblyStatus: " + ttt.getTextContent());// + sssubnode.getTextContent());
-                                                          }   
-                                                          if (ttt.getNodeName().equals("Chr")) {
-                                                             System.out.println("|    |    |    |    |    |    |-- Chr: " + ttt.getTextContent());// + sssubnode.getTextContent());
-                                                          }   
-                                                          if (ttt.getNodeName().equals("Accession")) {
-                                                             System.out.println("|    |    |    |    |    |    |-- Accession: " + ttt.getTextContent());// + sssubnode.getTextContent());
-                                                          }   
-                                                          if (ttt.getNodeName().equals("start")) {
-                                                              System.out.println("|    |    |    |    |    |    |-- start: " + ttt.getTextContent());// + sssubnode.getTextContent());
-                                                          }   
-                                                          if (ttt.getNodeName().equals("stop")) {
-                                                              System.out.println("|    |    |    |    |    |    |-- stop: " + ttt.getTextContent());// + sssubnode.getTextContent());
-                                                          }   
-                                                          if (ttt.getNodeName().equals("display_start")) {
-                                                              System.out.println("|    |    |    |    |    |    |-- display_start: " + ttt.getTextContent());// + sssubnode.getTextContent());
-                                                          }   
-                                                          if (ttt.getNodeName().equals("variantLength")) {
-                                                              System.out.println("|    |    |    |    |    |    |-- variantLength: " + ttt.getTextContent());// + sssubnode.getTextContent());
-                                                          }   
-                                                          if (ttt.getNodeName().equals("referenceAllele")) {
-                                                              System.out.println("|    |    |    |    |    |    |-- referenceAllele: " + ttt.getTextContent());// + sssubnode.getTextContent());
-                                                          }   
-                                                          if (ttt.getNodeName().equals("alternateAllele")) {
-                                                              System.out.println("|    |    |    |    |    |    |-- alternateAllele: " + ttt.getTextContent());// + sssubnode.getTextContent());
-                                                          }   
-                                                          if (ttt.getNodeName().equals("positionVCF")) {
-                                                              System.out.println("|    |    |    |    |    |    |-- positionVCF: " + ttt.getTextContent());// + sssubnode.getTextContent());
-                                                          }   
-                                                          if (ttt.getNodeName().equals("referenceAlleVCF")) {
-                                                              System.out.println("|    |    |    |    |    |    |-- referenceAlleleVCF: " + ttt.getTextContent());// + sssubnode.getTextContent());
-                                                          }   
-                                                          if (ttt.getNodeName().equals("alternateAlleleVCF")) {
-                                                              System.out.println("|    |    |    |    |    |    |-- alternateAlleleVCF: " + ttt.getTextContent());// + sssubnode.getTextContent());
-                                                          }   
-                                                          if (ttt.getNodeName().equals("Strand")) {
-                                                              System.out.println("|    |    |    |    |    |    |-- Strand: " + ttt.getTextContent());// + sssubnode.getTextContent());
-                                                          }   
-                                                      }   
-                                                }   
-                                                if (att.getNodeName().equals("XRef")) { 
-                                                    System.out.println("|    |    |    |    |    |-- XRef ");//  + att.getTextContent());
-                                                    NamedNodeMap mattsa = att.getAttributes();
-                                                    for (int h = 0; h < mattsa.getLength(); h++) {
-                                                       Node attl= mattsa.item(h);
-                                                       if (attl.getNodeName().equals("ID")) {
-                                                            System.out.println("|    |    |    |    |    |    |-- ID " + attl.getTextContent());//  + att.getTextContent());
-                                                       }
-                                                       if (attl.getNodeName().equals("DB")) {
-                                                            System.out.println("|    |    |    |    |    |    |-- DB " + attl.getTextContent());//  + att.getTextContent());
-                                                       }
-                                                    }
-                                                }
 
                                             }
                                       
@@ -2299,10 +2500,10 @@ public class XMLTextMining {
 
                // Tuple2<String, String> t2 = new Tuple2<String, String> (x._1, maxStr + "||" + secStr + "||" + thirdStr);  
                 //System.out.println("KEY " + t2._1 + " Value " + t2._2);
-                return (x._1 + ":::" +  maxStr + "||" + secStr + "||" + thirdStr);  
+                return (x._1 + "  :::  " +  maxStr + "||" + secStr + "||" + thirdStr);  
          
     }});
-     resultRDD.saveAsTextFile("outputPath");
+     resultRDD.coalesce(1).saveAsTextFile("outputPath");
          
    }
 }
