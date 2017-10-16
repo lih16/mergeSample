@@ -1,0 +1,3 @@
+Oct 16, 1686 papers were downloaded. 176 papers (one day) were downloaded. 5 papers were downloaded by PMC API and 171 papers were downloaded from our java code.
+
+at /sc/orga/projects/AILUN/fulltext_PDF/HGMD_DMpapers
